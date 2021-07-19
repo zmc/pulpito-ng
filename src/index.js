@@ -1,12 +1,34 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import axios from 'axios';
+
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      keepPreviousData: true,
+      refetchOnWindowFocus: false,
+      notifyOnChangeProps: "tracked",
+      staleTime: 1000 * 60 * 5,
+      queryFn: async ({queryKey}) => {
+        return axios.get(
+          queryKey[1].url,
+          {timeout: 1000},
+        ).then(resp => resp.data)
+      },
+    },
+  }
+});
+
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <QueryClientProvider client={queryClient}>
+      <App />
+    </QueryClientProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
