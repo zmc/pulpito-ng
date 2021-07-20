@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useReducer } from 'react';
 import { DataGrid } from '@material-ui/data-grid';
 import { format } from 'date-fns';
 
@@ -85,13 +85,23 @@ const columns = [
   },
 ];
 
+function reducer (state, action) {
+  switch (action.type) {
+    case "setPageSize":
+      return {...state, pageSize: action.payload};
+    case "setPage":
+      return {...state, page: action.payload};
+    default:
+      return state;
+  }
+};
 
 export default function Runs () {
-  const [pageSize, setPageSize] = useState(25);
-  const query = useRuns({count: pageSize});
+  const [state, dispatch] = useReducer(reducer, {page: 1, pageSize: 40});
+  const query = useRuns({count: state.pageSize, page: state.page});
   if ( query.isError ) return null;
   return (
-    <div style={{height: 500, width: '100%'}}>
+    <div style={{height: 800, width: '100%'}}>
       <div style={{ display: 'flex', height: '100%' }}>
         <div style={{ flexGrow: 1 }}>
           <DataGrid
@@ -106,8 +116,15 @@ export default function Runs () {
               }
             ]}
             getRowId={(row) => row.name}
-            pageSize={pageSize}
-            onPageSizeChange={(v) => setPageSize(v.pageSize)}
+            // autoPageSize
+            paginationMode='server'
+            rowCount={9999}
+            hideFooterRowCount
+            pageSize={state.pageSize}
+            onPageSizeChange={(v) => dispatch(
+              {type: 'setPageSize', payload: v.pageSize})}
+            page={state.page}
+            onPageChange={(v) => dispatch({type: 'setPage', payload: v.page})}
           />
         </div>
       </div>
