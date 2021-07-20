@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { DataGrid } from '@material-ui/data-grid';
 import { format } from 'date-fns';
 
@@ -86,7 +87,8 @@ const columns = [
 
 
 export default function Runs () {
-  const query = useRuns();
+  const [pageSize, setPageSize] = useState(25);
+  const query = useRuns({count: pageSize});
   if ( query.isError ) return null;
   return (
     <div style={{height: 500, width: '100%'}}>
@@ -104,6 +106,8 @@ export default function Runs () {
               }
             ]}
             getRowId={(row) => row.name}
+            pageSize={pageSize}
+            onPageSizeChange={(v) => setPageSize(v.pageSize)}
           />
         </div>
       </div>
