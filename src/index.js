@@ -15,11 +15,11 @@ const queryClient = new QueryClient({
       keepPreviousData: true,
       refetchOnWindowFocus: false,
       notifyOnChangeProps: "tracked",
-      staleTime: 1000 * 60 * 5,
+      staleTime: 1000 * 60 * 60,
+      cacheTime: 1000 * 60 * 60,
       queryFn: async ({queryKey}) => {
         return axios.get(
           queryKey[1].url,
-          {timeout: 1000},
         ).then(resp => resp.data)
       },
     },
