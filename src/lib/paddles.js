@@ -4,8 +4,42 @@ import { useQuery } from 'react-query';
 const PADDLES_SERVER = process.env.PADDLES_SERVER || "http://paddles.front.sepia.ceph.com";
 
 function getURL (endpoint, params) {
-  const queryString = new URLSearchParams(params).toString();
-  let uri = queryString? `${endpoint}?${queryString}` : endpoint;
+  // Because paddles' API is clunky, we have to do extra work. If it were
+  // more inuitive, we could replace everything until the next comment with
+  // just these lines:
+  //   const queryString = new URLSearchParams(params)).toString();
+  //   let uri = queryString? `${endpoint}?${queryString}` : endpoint;
+  const params_ = JSON.parse(JSON.stringify(params || {}));
+  let uri = endpoint;
+  let paramEntries = Object.entries(params_ || {});
+  paramEntries.forEach(entry => {
+    const [key, value] = entry;
+    if ( value === null ) {
+      delete params_[key];
+      return;
+    }
+    switch (key) {
+      case "page":
+        params_[key] = value + 1;
+        break
+      case "pageSize":
+        params_.count = value;
+        delete params_[key];
+        break
+      case "branch":
+      case "date": // TODO does this work? also need to handle date&&to_date
+      case "machine_type":
+      case "sha1":
+      case "status":
+      case "suite":
+      default:
+        uri += `${key}/${value}/`;
+        delete params_[key];
+    }
+  });
+  const queryString = new URLSearchParams(params_).toString();
+  if ( queryString ) uri += `?${queryString}`;
+  // end "we could replace everything..."
   return new URL(uri, PADDLES_SERVER).href;
 }
 

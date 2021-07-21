@@ -20,7 +20,7 @@ function reducer (state, action) {
 };
 
 export default function Runs () {
-  const [state, dispatch] = useReducer(reducer, {page: 1, pageSize: 25});
+  const [state, dispatch] = useReducer(reducer, {page: 0, pageSize: 25});
   return (
     <div>
       <div style={{height: 'auto', display: 'flex'}}>
