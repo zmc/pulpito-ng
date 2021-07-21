@@ -4,6 +4,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import axios from 'axios';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import { ReactQueryDevtools } from 'react-query/devtools'
 
 import './index.css';
 import App from './App';
@@ -31,6 +32,7 @@ ReactDOM.render(
     <Router>
       <CssBaseline />
       <QueryClientProvider client={queryClient}>
+        <ReactQueryDevtools initialIsOpen={false} />
         <App />
       </QueryClientProvider>
     </Router>
