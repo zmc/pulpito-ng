@@ -34,6 +34,11 @@ export default function Runs () {
       sha1Dispatch(false)
     }
   }, []);
+  const onDateChange = useCallback((evt) => {
+    dispatch(
+      {type: 'set', payload: {key: "date", value: evt.target.value}}
+    );
+  }, []);
   return (
     <div>
       <div style={{height: 'auto', display: 'flex'}}>
@@ -53,6 +58,14 @@ export default function Runs () {
           style={{margin: '10px'}}
           error={! sha1Valid}
           onChange={onSha1Change}
+        />
+        <TextField
+          label="Date"
+          type="date"
+          size="small"
+          margin="dense"
+          style={{margin: '10px'}}
+          onChange={onDateChange}
         />
       </div>
       <RunList params={state} dispatch={dispatch} />
