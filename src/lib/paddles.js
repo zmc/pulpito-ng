@@ -14,7 +14,7 @@ function getURL (endpoint, params) {
   let paramEntries = Object.entries(params_ || {});
   paramEntries.forEach(entry => {
     const [key, value] = entry;
-    if ( value === null ) {
+    if ( value === null || value === "" ) {
       delete params_[key];
       return;
     }

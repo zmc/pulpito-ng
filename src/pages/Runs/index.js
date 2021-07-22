@@ -1,5 +1,6 @@
-import { useReducer } from 'react';
+import { useReducer, useCallback } from 'react';
 import Typography from '@material-ui/core/Typography';
+import TextField from '@material-ui/core/TextField';
 
 import FilterMenu from '../../components/FilterMenu';
 import RunList from '../../components/RunList';
@@ -21,6 +22,18 @@ function reducer (state, action) {
 
 export default function Runs () {
   const [state, dispatch] = useReducer(reducer, {page: 0, pageSize: 25});
+  const [sha1Valid, sha1Dispatch] = useReducer((_, value) => value, true);
+  const onSha1Change = useCallback((evt) => {
+    const value = evt.target.value;
+    if ( value.length === 0 || value.length === 40 ) {
+      dispatch(
+        {type: 'set', payload: {key: "sha1", value: evt.target.value}}
+      );
+      sha1Dispatch(true);
+    } else {
+      sha1Dispatch(false)
+    }
+  }, []);
   return (
     <div>
       <div style={{height: 'auto', display: 'flex'}}>
@@ -33,6 +46,14 @@ export default function Runs () {
         <FilterMenu type="status" dispatch={dispatch} />
         <FilterMenu type="suite" dispatch={dispatch} />
         <FilterMenu type="machine_type" dispatch={dispatch} />
+        <TextField
+          label="SHA1"
+          size="small"
+          margin="dense"
+          style={{margin: '10px'}}
+          error={! sha1Valid}
+          onChange={onSha1Change}
+        />
       </div>
       <RunList params={state} dispatch={dispatch} />
     </div>
