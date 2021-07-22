@@ -47,10 +47,6 @@ export default function Runs () {
         >
           Filter by:
         </Typography>
-        <FilterMenu type="branch" dispatch={dispatch} />
-        <FilterMenu type="status" dispatch={dispatch} />
-        <FilterMenu type="suite" dispatch={dispatch} />
-        <FilterMenu type="machine_type" dispatch={dispatch} />
         <TextField
           label="SHA1"
           size="small"
@@ -67,6 +63,10 @@ export default function Runs () {
           style={{margin: '10px'}}
           onChange={onDateChange}
         />
+        <FilterMenu type="status" dispatch={dispatch} />
+        <FilterMenu type="branch" dispatch={dispatch} />
+        <FilterMenu type="suite" dispatch={dispatch} />
+        <FilterMenu type="machine_type" dispatch={dispatch} />
       </div>
       <RunList params={state} dispatch={dispatch} />
     </div>
