@@ -1,14 +1,14 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { BrowserRouter as Router } from 'react-router-dom';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import axios from 'axios';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import { ReactQueryDevtools } from 'react-query/devtools'
+import React from "react";
+import ReactDOM from "react-dom";
+import { BrowserRouter as Router } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "react-query";
+import axios from "axios";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import { ReactQueryDevtools } from "react-query/devtools";
 
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -18,13 +18,11 @@ const queryClient = new QueryClient({
       notifyOnChangeProps: "tracked",
       staleTime: 1000 * 60 * 60,
       cacheTime: 1000 * 60 * 60,
-      queryFn: async ({queryKey}) => {
-        return axios.get(
-          queryKey[1].url,
-        ).then(resp => resp.data)
+      queryFn: async ({ queryKey }) => {
+        return axios.get(queryKey[1].url).then((resp) => resp.data);
       },
     },
-  }
+  },
 });
 
 ReactDOM.render(
@@ -37,7 +35,7 @@ ReactDOM.render(
       </QueryClientProvider>
     </Router>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function
