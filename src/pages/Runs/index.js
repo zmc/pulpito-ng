@@ -56,11 +56,10 @@ export default function Runs () {
           onChange={onSha1Change}
         />
         <TextField
-          label="Date"
           type="date"
           size="small"
           margin="dense"
-          style={{margin: '10px'}}
+          style={{margin: '10px', paddingTop: '16px'}}
           onChange={onDateChange}
         />
         <FilterMenu type="status" dispatch={dispatch} />
