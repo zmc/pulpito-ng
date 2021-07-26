@@ -41,7 +41,13 @@ export default function Runs () {
   }, []);
   return (
     <div>
-      <div style={{height: 'auto', display: 'flex'}}>
+      <Typography
+        variant="h3"
+        style={{textAlign: "start"}}
+      >
+        Runs
+      </Typography>
+      <div style={{height: 'auto', display: 'flex', flexWrap: 'wrap'}}>
         <Typography
           style={{padding: '10px', marginTop: '16px'}}
         >
