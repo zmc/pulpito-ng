@@ -59,6 +59,12 @@ function useRuns(params) {
   return query;
 }
 
+function useRun(name) {
+  const url = getURL(`/runs/${name}/`);
+  const query = useQuery(["run", { url }], {});
+  return query;
+}
+
 function useBranches() {
   const url = getURL("/runs/branch/");
   return useQuery(["branches", { url }]);
@@ -87,4 +93,11 @@ function useStatuses() {
   };
 }
 
-export { useBranches, useMachineTypes, useRuns, useSuites, useStatuses };
+export {
+  useBranches,
+  useMachineTypes,
+  useRuns,
+  useRun,
+  useSuites,
+  useStatuses,
+};
