@@ -1,8 +1,7 @@
-import { useReducer } from "react";
-import { DataGrid } from "@material-ui/data-grid";
 import { format } from "date-fns";
 
 import { useRuns } from "../../lib/paddles";
+import DataGrid from "../DataGrid";
 
 function formatDate(orig) {
   if (!orig) return;
@@ -87,39 +86,32 @@ export default function RunList(props) {
   const query = useRuns(params);
   if (query.isError) return null;
   return (
-    <div style={{ height: 800, width: "100%" }}>
-      <div style={{ display: "flex", height: "100%" }}>
-        <div style={{ flexGrow: 1 }}>
-          <DataGrid
-            columns={columns}
-            rows={query.data || []}
-            loading={query.isLoading || query.isFetching}
-            density="compact"
-            sortModel={[
-              {
-                field: "scheduled",
-                sort: "desc",
-              },
-            ]}
-            getRowId={(row) => row.name}
-            // autoPageSize
-            paginationMode="server"
-            rowCount={9999}
-            hideFooterRowCount
-            pageSize={params.pageSize}
-            onPageSizeChange={(v) =>
-              dispatch({
-                type: "set",
-                payload: { key: "pageSize", value: v.pageSize },
-              })
-            }
-            page={params.page}
-            onPageChange={(v) =>
-              dispatch({ type: "set", payload: { key: "page", value: v.page } })
-            }
-          />
-        </div>
-      </div>
-    </div>
+    <DataGrid
+      columns={columns}
+      rows={query.data || []}
+      loading={query.isLoading || query.isFetching}
+      sortModel={[
+        {
+          field: "scheduled",
+          sort: "desc",
+        },
+      ]}
+      getRowId={(row) => row.name}
+      // autoPageSize
+      paginationMode="server"
+      rowCount={9999}
+      hideFooterRowCount
+      pageSize={params.pageSize}
+      onPageSizeChange={(v) =>
+        dispatch({
+          type: "set",
+          payload: { key: "pageSize", value: v.pageSize },
+        })
+      }
+      page={params.page}
+      onPageChange={(v) =>
+        dispatch({ type: "set", payload: { key: "page", value: v.page } })
+      }
+    />
   );
 }
