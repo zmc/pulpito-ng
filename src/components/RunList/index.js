@@ -43,7 +43,7 @@ const columns = [
       const start = Date.parse(params.row.started);
       const end = Date.parse(params.row.posted);
       if (!end || !start) return null;
-      return start - end;
+      return Math.round((start - end) / 1000);
     },
   },
   {
