@@ -1,12 +1,6 @@
-import { format } from "date-fns";
-
 import { useRuns } from "../../lib/paddles";
+import { formatDate } from "../../lib/utils";
 import DataGrid from "../DataGrid";
-
-function formatDate(orig) {
-  if (!orig) return;
-  return format(new Date(Date.parse(orig)), "yy-MM-dd HH:mm:ss");
-}
 
 function resultsGetter(params) {
   return params.row.results[params.field];
