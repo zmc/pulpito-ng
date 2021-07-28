@@ -7,6 +7,7 @@ import DataGrid from "../../components/DataGrid";
 const columns = [
   {
     field: "status",
+    width: 85,
   },
   {
     field: "job_id",
@@ -17,19 +18,19 @@ const columns = [
     field: "posted",
     type: "date",
     valueFormatter: (row) => formatDate(row.value),
-    width: 150,
+    width: 125,
   },
   {
     field: "started",
     type: "date",
     valueFormatter: (row) => formatDate(row.value),
-    width: 150,
+    width: 125,
   },
   {
     field: "updated",
     type: "date",
     valueFormatter: (row) => formatDate(row.value),
-    width: 150,
+    width: 125,
   },
   {
     field: "runtime",
@@ -67,10 +68,12 @@ const columns = [
   {
     field: "os_type",
     headerName: "OS type",
+    width: 85,
   },
   {
     field: "os_version",
     headerName: "OS version",
+    width: 85,
   },
   {
     field: "nodes",
@@ -78,6 +81,7 @@ const columns = [
     valueGetter: (params) => {
       return Object.keys(params.row.targets || {}).length || null;
     },
+    width: 85,
   },
 ];
 

@@ -14,20 +14,20 @@ const columns = [
     field: "scheduled",
     type: "date",
     valueFormatter: (row) => formatDate(row.value),
-    width: 150,
+    width: 125,
   },
   {
     field: "started",
     type: "date",
     valueFormatter: (row) => formatDate(row.value),
-    width: 150,
+    width: 125,
   },
   {
     headerName: "updated",
     field: "posted",
     type: "date",
     valueFormatter: (row) => formatDate(row.value),
-    width: 150,
+    width: 125,
   },
   {
     headerName: "runtime",
@@ -56,22 +56,27 @@ const columns = [
   {
     field: "queued",
     valueGetter: resultsGetter,
+    width: 85,
   },
   {
     field: "pass",
     valueGetter: resultsGetter,
+    width: 85,
   },
   {
     field: "fail",
     valueGetter: resultsGetter,
+    width: 85,
   },
   {
     field: "dead",
     valueGetter: resultsGetter,
+    width: 85,
   },
   {
     field: "running",
     valueGetter: resultsGetter,
+    width: 85,
   },
 ];
 
