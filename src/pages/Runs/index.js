@@ -42,32 +42,36 @@ export default function Runs() {
   }, []);
   return (
     <div>
-      <Typography variant="h3" style={{ textAlign: "start" }}>
+      <Typography variant="h5" style={{ margin: "20px" }}>
         Runs
       </Typography>
-      <div style={{ height: "auto", display: "flex", flexWrap: "wrap" }}>
-        <Typography style={{ padding: "10px", marginTop: "16px" }}>
-          Filter by:
-        </Typography>
-        <TextField
-          label="SHA1"
-          size="small"
-          margin="dense"
-          style={{ margin: "10px" }}
-          error={!sha1Valid}
-          onChange={onSha1Change}
-        />
-        <TextField
-          type="date"
-          size="small"
-          margin="dense"
-          style={{ margin: "10px", paddingTop: "16px" }}
-          onChange={onDateChange}
-        />
-        <FilterMenu type="status" dispatch={dispatch} />
-        <FilterMenu type="branch" dispatch={dispatch} />
-        <FilterMenu type="suite" dispatch={dispatch} />
-        <FilterMenu type="machine_type" dispatch={dispatch} />
+      <div style={{ height: "auto", display: "flex" }}>
+        <div>
+          <Typography style={{ padding: "10px", marginTop: "16px" }}>
+            Filter&nbsp;by:
+          </Typography>
+        </div>
+        <div style={{ display: "flex", flexWrap: "wrap" }}>
+          <TextField
+            label="SHA1"
+            size="small"
+            margin="dense"
+            style={{ margin: "10px" }}
+            error={!sha1Valid}
+            onChange={onSha1Change}
+          />
+          <TextField
+            type="date"
+            size="small"
+            margin="dense"
+            style={{ margin: "10px", paddingTop: "16px" }}
+            onChange={onDateChange}
+          />
+          <FilterMenu type="status" dispatch={dispatch} />
+          <FilterMenu type="branch" dispatch={dispatch} />
+          <FilterMenu type="suite" dispatch={dispatch} />
+          <FilterMenu type="machine_type" dispatch={dispatch} />
+        </div>
       </div>
       <RunList params={state} dispatch={dispatch} />
     </div>
