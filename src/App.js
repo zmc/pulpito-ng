@@ -5,6 +5,7 @@ import { Switch, Route } from "react-router-dom";
 import AppBar from "./components/AppBar";
 import Drawer from "./components/Drawer";
 import Runs from "./pages/Runs";
+import Run from "./pages/Run";
 
 import "./App.css";
 
@@ -19,6 +20,12 @@ function App() {
       <Switch>
         <Route path="/" exact>
           <Runs />
+        </Route>
+        <Route path="/runs" exact>
+          <Runs />
+        </Route>
+        <Route path="/runs/:name">
+          <Run />
         </Route>
       </Switch>
     </div>
