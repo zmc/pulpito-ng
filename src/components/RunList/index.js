@@ -1,3 +1,7 @@
+import { Link as RouterLink } from "react-router-dom";
+import Link from "@material-ui/core/Link";
+import OpenInNewIcon from "@material-ui/icons/OpenInNew";
+
 import { useRuns } from "../../lib/paddles";
 import { formatDate, formatDuration } from "../../lib/utils";
 import DataGrid from "../DataGrid";
@@ -9,6 +13,22 @@ function resultsGetter(params) {
 const columns = [
   {
     field: "user",
+  },
+  {
+    field: "name",
+    headerName: "link",
+    width: 60,
+    renderCell: (params) => {
+      return (
+        <RouterLink
+          to={`/runs/${params.value}`}
+          component={Link}
+          target="_blank"
+        >
+          <OpenInNewIcon />
+        </RouterLink>
+      );
+    },
   },
   {
     field: "scheduled",
