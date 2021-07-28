@@ -1,4 +1,5 @@
 import { useParams } from "react-router-dom";
+import Typography from "@material-ui/core/Typography";
 
 import { useRun } from "../../lib/paddles";
 import { formatDate, formatDuration } from "../../lib/utils";
@@ -90,17 +91,25 @@ export default function Run() {
   const query = useRun(name);
   if (query.isError) return null;
   return (
-    <DataGrid
-      columns={columns}
-      rows={query.data?.jobs || []}
-      loading={query.isLoading || query.isFetching}
-      sortModel={[
-        {
-          field: "job_id",
-          sort: "asc",
-        },
-      ]}
-      getRowId={(row) => row.job_id}
-    />
+    <div>
+      <Typography
+        variant="h5"
+        style={{margin: "20px"}}
+      >
+        { name }
+      </Typography>
+      <DataGrid
+        columns={columns}
+        rows={query.data?.jobs || []}
+        loading={query.isLoading || query.isFetching}
+        sortModel={[
+          {
+            field: "job_id",
+            sort: "asc",
+          },
+        ]}
+        getRowId={(row) => row.job_id}
+      />
+    </div>
   );
 }
