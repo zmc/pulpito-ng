@@ -1,5 +1,5 @@
 import { useRuns } from "../../lib/paddles";
-import { formatDate } from "../../lib/utils";
+import { formatDate, formatDuration } from "../../lib/utils";
 import DataGrid from "../DataGrid";
 
 function resultsGetter(params) {
@@ -38,6 +38,7 @@ const columns = [
       if (!end || !start) return null;
       return Math.round((start - end) / 1000);
     },
+    valueFormatter: (row) => formatDuration(row.value),
   },
   {
     field: "suite",

@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 
 import { useRun } from "../../lib/paddles";
-import { formatDate } from "../../lib/utils";
+import { formatDate, formatDuration } from "../../lib/utils";
 import DataGrid from "../../components/DataGrid";
 
 const columns = [
@@ -39,9 +39,11 @@ const columns = [
       if (!end || !start) return null;
       return Math.round((end - start) / 1000);
     },
+    valueFormatter: (row) => formatDuration(row.value),
   },
   {
     field: "duration",
+    valueFormatter: (row) => formatDuration(row.value),
   },
   {
     field: "waiting",
@@ -52,6 +54,7 @@ const columns = [
       if (!end || !start || !params.row.duration) return null;
       return Math.round((end - start) / 1000 - params.row.duration);
     },
+    valueFormatter: (row) => formatDuration(row.value),
   },
   {
     field: "teuthology_branch",
