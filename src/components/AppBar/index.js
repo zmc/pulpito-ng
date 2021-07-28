@@ -14,9 +14,6 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
   },
-  toolbar: {
-    paddingRight: 24, // keep right padding when drawer closed
-  },
   toolbarIcon: {
     ...theme.mixins.toolbar,
     position: "sticky",
@@ -35,7 +32,7 @@ export default function AppBar(props) {
   const classes = useStyles(theme);
   return (
     <MuiAppBar position="static" className={classes.appBar}>
-      <Toolbar className={classes.toolbar}>
+      <Toolbar>
         <IconButton
           edge="start"
           color="inherit"
@@ -58,12 +55,12 @@ export default function AppBar(props) {
             style={{
               color: theme.palette.text.primary,
               textDecoration: "none",
+              marginLeft: "-36px",
             }}
           >
             Pulpito
           </RouterLink>
         </Typography>
-        <IconButton edge="end" color="inherit"></IconButton>
       </Toolbar>
     </MuiAppBar>
   );
