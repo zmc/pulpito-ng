@@ -5,6 +5,7 @@ import OpenInNewIcon from "@material-ui/icons/OpenInNew";
 import { useRuns } from "../../lib/paddles";
 import { formatDate, formatDuration } from "../../lib/utils";
 import DataGrid from "../DataGrid";
+import IconLink from "../../components/IconLink";
 
 function resultsGetter(params) {
   return params.row.results[params.field];
@@ -22,7 +23,7 @@ const columns = [
       return (
         <RouterLink
           to={`/runs/${params.value}`}
-          component={Link}
+          component={IconLink}
           target="_blank"
         >
           <OpenInNewIcon />
