@@ -11,6 +11,14 @@ const useStyles = makeStyles((theme) => ({
       width: "0.75em",
       height: "0.75em",
     },
+    "& .statusCell-pass": {
+      backgroundColor: "green",
+      color: "black",
+    },
+    "& .statusCell-fail": {
+      backgroundColor: "red",
+      color: "black",
+    },
   },
 }));
 

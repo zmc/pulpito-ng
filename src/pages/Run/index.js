@@ -12,6 +12,7 @@ const columns = [
   {
     field: "status",
     width: 85,
+    cellClassName: (params) => `statusCell-${params.value}`,
   },
   {
     field: "links",
