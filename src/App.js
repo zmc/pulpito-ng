@@ -9,12 +9,16 @@ import Run from "./pages/Run";
 
 import "./App.css";
 
-function App() {
+function App(props) {
   const [drawerOpen, setDrawerOpen] = useState(false);
   return (
     <div className="App">
       <header className="App-header">
-        <AppBar setDrawerOpen={setDrawerOpen} />
+        <AppBar
+          setDrawerOpen={setDrawerOpen}
+          darkMode={props.darkMode}
+          toggleDarkMode={props.toggleDarkMode}
+        />
       </header>
       <Drawer drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} />
       <Switch>

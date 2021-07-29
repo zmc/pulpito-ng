@@ -66,7 +66,7 @@ export default function Root() {
           <CssBaseline />
           <QueryClientProvider client={queryClient}>
             <ReactQueryDevtools initialIsOpen={false} />
-            <App />
+            <App darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
           </QueryClientProvider>
         </Router>
       </ThemeProvider>
