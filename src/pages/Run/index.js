@@ -1,14 +1,43 @@
 import { useParams } from "react-router-dom";
 import Typography from "@material-ui/core/Typography";
+import BugReportIcon from "@material-ui/icons/BugReport";
+import DescriptionIcon from "@material-ui/icons/Description";
 
 import { useRun } from "../../lib/paddles";
 import { formatDate, formatDuration } from "../../lib/utils";
 import DataGrid from "../../components/DataGrid";
+import IconLink from "../../components/IconLink";
 
 const columns = [
   {
     field: "status",
     width: 85,
+  },
+  {
+    field: "links",
+    width: 75,
+    valueGetter: (params) => {
+      return {
+        log: params.row.log_href,
+        sentry: params.row.sentry_event,
+      };
+    },
+    renderCell: (params) => {
+      return (
+        <div>
+          {params.value.log ? (
+            <IconLink href={params.value.log}>
+              <DescriptionIcon />
+            </IconLink>
+          ) : null}
+          {params.value.sentry ? (
+            <IconLink href={params.value.sentry}>
+              <BugReportIcon />
+            </IconLink>
+          ) : null}
+        </div>
+      );
+    },
   },
   {
     field: "job_id",
@@ -92,11 +121,8 @@ export default function Run() {
   if (query.isError) return null;
   return (
     <div>
-      <Typography
-        variant="h5"
-        style={{margin: "20px"}}
-      >
-        { name }
+      <Typography variant="h5" style={{ margin: "20px" }}>
+        {name}
       </Typography>
       <DataGrid
         columns={columns}
