@@ -67,7 +67,7 @@ export default function FilterMenu(props) {
 
   return (
     <Autocomplete
-      value={props.value}
+      value={props.state[props.type] || null}
       filterOptions={filterOptions}
       autoHighlight
       autoSelect

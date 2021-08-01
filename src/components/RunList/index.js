@@ -1,5 +1,4 @@
 import { Link as RouterLink } from "react-router-dom";
-import Link from "@material-ui/core/Link";
 import OpenInNewIcon from "@material-ui/icons/OpenInNew";
 
 import { useRuns } from "../../lib/paddles";
@@ -102,9 +101,11 @@ const columns = [
 ];
 
 export default function RunList(props) {
-  const params = props.params;
+  const state = { ...props.state };
   const dispatch = props.dispatch;
-  const query = useRuns(params);
+  if (!state.page) state.page = 0;
+  if (!state.pageSize) state.pageSize = 25;
+  const query = useRuns(state);
   if (query.isError) return null;
   return (
     <DataGrid
@@ -122,14 +123,14 @@ export default function RunList(props) {
       paginationMode="server"
       rowCount={9999}
       hideFooterRowCount
-      pageSize={params.pageSize}
+      pageSize={state.pageSize}
       onPageSizeChange={(v) =>
         dispatch({
           type: "set",
           payload: { key: "pageSize", value: v.pageSize },
         })
       }
-      page={params.page}
+      page={state.page}
       onPageChange={(v) =>
         dispatch({ type: "set", payload: { key: "page", value: v.page } })
       }
