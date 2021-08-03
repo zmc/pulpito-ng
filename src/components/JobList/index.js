@@ -113,8 +113,20 @@ const columns = [
   },
 ];
 
-export default function JobList ({query}) {
+export default function JobList({ query, state }) {
   if (query.isError) return null;
+  let filterModel = { items: [] };
+  if (Object.keys(state || {}).length) {
+    filterModel = {
+      items: [
+        {
+          columnField: Object.keys(state)[0],
+          value: Object.values(state)[0],
+          operatorValue: "equals",
+        },
+      ],
+    };
+  }
   return (
     <DataGrid
       columns={columns}
@@ -127,7 +139,8 @@ export default function JobList ({query}) {
           sort: "asc",
         },
       ]}
+      filterModel={filterModel}
       getRowId={(row) => row.job_id}
     />
-  )
+  );
 }
