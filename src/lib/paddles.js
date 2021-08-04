@@ -32,6 +32,10 @@ function getURL(endpoint, params) {
       case "sha1":
       case "status":
       case "suite":
+      case "queued":
+        uri += "queued/";
+        delete params_[key];
+        break;
       default:
         uri += `${key}/${value}/`;
         delete params_[key];

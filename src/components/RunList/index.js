@@ -101,12 +101,24 @@ const columns = [
 ];
 
 export default function RunList(props) {
-  const state = { ...props.state };
+  const state = { ...(props.state || {}) };
   const dispatch = props.dispatch;
   if (!state.page) state.page = 0;
   if (!state.pageSize) state.pageSize = 25;
   const query = useRuns(state);
   if (query.isError) return null;
+  const onPageSizeChange = ({ pageSize }) => {
+    if (typeof dispatch !== "function") return;
+    dispatch({
+      type: "set",
+      payload: { key: "pageSize", value: pageSize },
+    });
+  };
+  const onPageChange = ({ page }) => {
+    if (typeof dispatch !== "function") return;
+    dispatch({ type: "set", payload: { key: "page", value: page } });
+  };
+  const paginationMode = typeof dispatch === "function" ? "server" : "client";
   return (
     <DataGrid
       columns={columns}
@@ -119,21 +131,14 @@ export default function RunList(props) {
         },
       ]}
       getRowId={(row) => row.name}
-      // autoPageSize
-      paginationMode="server"
-      rowCount={9999}
-      hideFooterRowCount
+      paginationMode={paginationMode}
+      rowCount={paginationMode === "server" ? 9999 : undefined}
       pageSize={state.pageSize}
-      onPageSizeChange={(v) =>
-        dispatch({
-          type: "set",
-          payload: { key: "pageSize", value: v.pageSize },
-        })
+      onPageSizeChange={
+        paginationMode === "server" ? onPageSizeChange : undefined
       }
-      page={state.page}
-      onPageChange={(v) =>
-        dispatch({ type: "set", payload: { key: "page", value: v.page } })
-      }
+      page={paginationMode === "server" ? state.page : undefined}
+      onPageChange={onPageChange}
     />
   );
 }

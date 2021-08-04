@@ -17,6 +17,15 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "flex-end",
     padding: "0 8px",
   },
+  drawerPaper: {
+    width: "150px",
+  },
+  drawerLink: {
+    color: theme.palette.text.primary,
+    textDecoration: "none",
+    padding: "10px 20px",
+    fontSize: "16px",
+  },
 }));
 
 export default function Drawer(props) {
@@ -31,7 +40,12 @@ export default function Drawer(props) {
       onClose={() => {
         props.setDrawerOpen(false);
       }}
-      style={{ height: "100%" }}
+      style={{
+        height: "100%",
+      }}
+      classes={{
+        paper: classes.drawerPaper,
+      }}
     >
       <div className={classes.toolbarIcon}>
         <IconButton
@@ -42,13 +56,10 @@ export default function Drawer(props) {
           <MenuIcon />
         </IconButton>
       </div>
-      <RouterLink
-        to="/runs"
-        style={{
-          color: theme.palette.text.primary,
-          textDecoration: "none",
-        }}
-      >
+      <RouterLink to="/queue" className={classes.drawerLink}>
+        Queue
+      </RouterLink>
+      <RouterLink to="/runs" className={classes.drawerLink}>
         Runs
       </RouterLink>
     </SwipeableDrawer>

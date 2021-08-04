@@ -6,6 +6,7 @@ import AppBar from "./components/AppBar";
 import Drawer from "./components/Drawer";
 import Runs from "./pages/Runs";
 import Run from "./pages/Run";
+import Queue from "./pages/Queue";
 
 import "./App.css";
 
@@ -30,6 +31,9 @@ function App(props) {
         </Route>
         <Route path="/runs/:name">
           <Run />
+        </Route>
+        <Route path="/queue" exact>
+          <Queue />
         </Route>
       </Switch>
     </div>
