@@ -44,6 +44,7 @@ export default function Run() {
       payload: { key, value },
     });
   };
+  const statuses = ["pass", "fail", "dead", "running", "waiting"];
   return (
     <div className={classes.root}>
       <Typography variant="h5" style={{ margin: "20px" }}>
@@ -57,27 +58,15 @@ export default function Run() {
         >
           All
         </Button>
-        <Button
-          onClick={() => {
-            setFilter("status", "pass");
-          }}
-        >
-          Pass
-        </Button>
-        <Button
-          onClick={() => {
-            setFilter("status", "fail");
-          }}
-        >
-          Fail
-        </Button>
-        <Button
-          onClick={() => {
-            setFilter("status", "dead");
-          }}
-        >
-          Dead
-        </Button>
+        {statuses.map((item) => (
+          <Button
+            onClick={() => {
+              setFilter("status", item);
+            }}
+          >
+            {item.charAt(0).toUpperCase() + item.slice(1)}
+          </Button>
+        ))}
       </ButtonGroup>
       <JobList query={query} state={state} />
     </div>
