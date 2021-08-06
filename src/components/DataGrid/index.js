@@ -33,10 +33,16 @@ const useStyles = makeStyles((theme) => ({
 export default function DataGrid(props) {
   const classes = useStyles();
   return (
-    <div style={{ height: 800, width: "100%" }}>
+    <div style={{ width: "100%" }}>
       <div style={{ display: "flex", height: "100%" }}>
         <div style={{ flexGrow: 1 }}>
-          <MuiDataGrid className={classes.root} density="compact" {...props} />
+          <MuiDataGrid
+            autoHeight
+            className={classes.root}
+            density="compact"
+            rowsPerPageOptions={[25, 50, 100]}
+            {...props}
+          />
         </div>
       </div>
     </div>
