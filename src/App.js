@@ -6,6 +6,7 @@ import AppBar from "./components/AppBar";
 import Drawer from "./components/Drawer";
 import Runs from "./pages/Runs";
 import Run from "./pages/Run";
+import Job from "./pages/Job";
 import Queue from "./pages/Queue";
 
 import "./App.css";
@@ -29,8 +30,11 @@ function App(props) {
         <Route path="/runs" exact>
           <Runs />
         </Route>
-        <Route path="/runs/:name">
+        <Route path="/runs/:name" exact>
           <Run />
+        </Route>
+        <Route path="/runs/:name/jobs/:job_id">
+          <Job />
         </Route>
         <Route path="/queue" exact>
           <Queue />

@@ -1,5 +1,6 @@
 import BugReportIcon from "@material-ui/icons/BugReport";
 import DescriptionIcon from "@material-ui/icons/Description";
+import OpenInNewIcon from "@material-ui/icons/OpenInNew";
 
 import { formatDate, formatDuration } from "../../lib/utils";
 import DataGrid from "../../components/DataGrid";
@@ -40,6 +41,13 @@ const columns = [
   {
     field: "job_id",
     headerName: "job ID",
+    renderCell: (params) => {
+      return (
+        <IconLink href={`/runs/${params.row.name}/jobs/${params.value}`}>
+          {params.value}
+        </IconLink>
+      );
+    },
   },
   // links
   {

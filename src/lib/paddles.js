@@ -69,6 +69,12 @@ function useRun(name) {
   return query;
 }
 
+function useJob(name, job_id) {
+  const url = getURL(`/runs/${name}/jobs/${job_id}`);
+  const query = useQuery(["job", { url }], {});
+  return query;
+}
+
 function useBranches() {
   const url = getURL("/runs/branch/");
   return useQuery(["branches", { url }]);
@@ -102,6 +108,7 @@ export {
   useMachineTypes,
   useRuns,
   useRun,
+  useJob,
   useSuites,
   useStatuses,
 };
