@@ -23,23 +23,25 @@ function App(props) {
         />
       </header>
       <Drawer drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} />
-      <Switch>
-        <Route path="/" exact>
-          <Runs />
-        </Route>
-        <Route path="/runs" exact>
-          <Runs />
-        </Route>
-        <Route path="/runs/:name" exact>
-          <Run />
-        </Route>
-        <Route path="/runs/:name/jobs/:job_id">
-          <Job />
-        </Route>
-        <Route path="/queue" exact>
-          <Queue />
-        </Route>
-      </Switch>
+      <div className="App-body">
+        <Switch>
+          <Route path="/" exact>
+            <Runs />
+          </Route>
+          <Route path="/runs" exact>
+            <Runs />
+          </Route>
+          <Route path="/runs/:name" exact>
+            <Run />
+          </Route>
+          <Route path="/runs/:name/jobs/:job_id">
+            <Job />
+          </Route>
+          <Route path="/queue" exact>
+            <Queue />
+          </Route>
+        </Switch>
+      </div>
     </div>
   );
 }

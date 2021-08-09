@@ -23,6 +23,10 @@
   color: white;
 }
 
+.App-body {
+  margin: 20px 20px 0px 20px;
+}
+
 .App-link {
   color: #61dafb;
 }
