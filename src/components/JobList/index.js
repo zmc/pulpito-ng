@@ -94,10 +94,6 @@ const columns = [
     valueFormatter: (row) => formatDuration(row.value),
   },
   {
-    field: "teuthology_branch",
-    headerName: "teuthology branch",
-  },
-  {
     field: "machine_type",
     headerName: "machine type",
   },
