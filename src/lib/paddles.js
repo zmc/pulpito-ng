@@ -26,12 +26,6 @@ function getURL(endpoint, params) {
         params_.count = value;
         delete params_[key];
         break;
-      case "branch":
-      case "date": // TODO does this work? also need to handle date&&to_date
-      case "machine_type":
-      case "sha1":
-      case "status":
-      case "suite":
       case "queued":
         uri += "queued/";
         delete params_[key];
