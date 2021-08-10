@@ -10,7 +10,7 @@ function resultsGetter(params) {
   return params.row.results[params.field];
 }
 
-const columns = [
+const _columns = [
   {
     field: "user",
   },
@@ -65,6 +65,7 @@ const columns = [
   },
   {
     field: "branch",
+    width: 350,
   },
   {
     field: "machine_type",
@@ -119,6 +120,17 @@ export default function RunList(props) {
     dispatch({ type: "set", payload: { key: "page", value: page } });
   };
   const paginationMode = typeof dispatch === "function" ? "server" : "client";
+  const columns = [..._columns];
+  if (query.isSuccess) {
+    const branchLength = Math.max(
+      ...query.data.map((item) => item.branch.length)
+    );
+    columns.forEach((item) => {
+      if (item.field === "branch") {
+        item.width = Math.max(100, branchLength * 7);
+      }
+    });
+  }
   return (
     <DataGrid
       columns={columns}
