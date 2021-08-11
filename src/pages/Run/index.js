@@ -47,10 +47,10 @@ export default function Run() {
   const statuses = ["pass", "fail", "dead", "running", "waiting"];
   return (
     <div className={classes.root}>
-      <Typography variant="h5" style={{ margin: "20px" }}>
+      <Typography variant="h5" style={{ margin: "20px 0px" }}>
         {name}
       </Typography>
-      <ButtonGroup>
+      <ButtonGroup style={{ display: "flex", justifyContent: "center" }}>
         <Button
           onClick={() => {
             setFilter("status", null);
