@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 
 import AppBar from "./components/AppBar";
 import Drawer from "./components/Drawer";
@@ -40,6 +40,8 @@ function App(props) {
           <Route path="/queue" exact>
             <Queue />
           </Route>
+          <Redirect from="/:name/:id" to="/runs/:name/jobs/:id" />
+          <Redirect from="/:name" to="/runs/:name" />
         </Switch>
       </div>
     </div>
