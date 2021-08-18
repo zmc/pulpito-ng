@@ -143,6 +143,10 @@ export default function RunList(props) {
         },
       ]}
       getRowId={(row) => row.name}
+      getRowClassName={(params) => {
+        const status = params.row.status.split(" ").pop();
+        return `status-${status}`;
+      }}
       paginationMode={paginationMode}
       rowCount={paginationMode === "server" ? 9999 : undefined}
       pageSize={state.pageSize}

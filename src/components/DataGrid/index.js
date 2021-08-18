@@ -11,19 +11,19 @@ const useStyles = makeStyles((theme) => ({
       width: "0.75em",
       height: "0.75em",
     },
-    "& .statusCell-pass": {
+    "& .status-pass": {
       backgroundColor: theme.palette.success.light,
       color: "black",
     },
-    "& .statusCell-fail": {
+    "& .status-fail": {
       backgroundColor: theme.palette.error.light,
       color: "black",
     },
-    "& .statusCell-running": {
+    "& .status-running": {
       backgroundColor: theme.palette.warning.light,
       color: "black",
     },
-    "& .statusCell-waiting": {
+    "& .status-waiting": {
       backgroundColor: theme.palette.info.light,
       color: "black",
     },
