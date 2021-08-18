@@ -1,6 +1,8 @@
 import { DataGrid as MuiDataGrid } from "@material-ui/data-grid";
 import { makeStyles } from "@material-ui/styles";
 
+import { colorTint } from "../../lib/utils";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     fontSize: 12,
@@ -12,19 +14,19 @@ const useStyles = makeStyles((theme) => ({
       height: "0.75em",
     },
     "& .status-pass": {
-      backgroundColor: theme.palette.success.light,
+      backgroundColor: colorTint(theme.palette.success.main, 35),
       color: "black",
     },
     "& .status-fail": {
-      backgroundColor: theme.palette.error.light,
+      backgroundColor: colorTint(theme.palette.error.main, 30),
       color: "black",
     },
     "& .status-running": {
-      backgroundColor: theme.palette.warning.light,
+      backgroundColor: colorTint(theme.palette.warning.main, 35),
       color: "black",
     },
     "& .status-waiting": {
-      backgroundColor: theme.palette.info.light,
+      backgroundColor: colorTint(theme.palette.info.main, 35),
       color: "black",
     },
   },
