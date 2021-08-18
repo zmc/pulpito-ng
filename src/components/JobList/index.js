@@ -145,6 +145,9 @@ export default function JobList({ query, state }) {
       ]}
       filterModel={filterModel}
       getRowId={(row) => row.job_id}
+      getRowClassName={(params) => {
+        return `status-${params.row.status}`;
+      }}
     />
   );
 }
