@@ -70,7 +70,7 @@ function JobHeader({ query }) {
       <Grid item xs={4}>
         <Typography>
           Nodes:&nbsp;
-          {Object.keys(query.data.targets).map((item) => {
+          {Object.keys(query.data.targets || []).map((item) => {
             return (
               <RouterLink
                 to={`/nodes/${item}`}
