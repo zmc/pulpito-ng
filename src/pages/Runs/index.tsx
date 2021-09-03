@@ -6,9 +6,20 @@ import TextField from "@material-ui/core/TextField";
 
 import FilterMenu from "../../components/FilterMenu";
 import RunList from "../../components/RunList";
+import { GetURLParams } from "../../lib/paddles.d";
 
-function reducer(state, action) {
-  let newState;
+type URLParamsReducerAction = {
+  type: string;
+  payload: URLParamsReducerPayload;
+}
+
+type URLParamsReducerPayload = {
+  key: string;
+  value: string;
+}
+
+function reducer(state: GetURLParams, action: URLParamsReducerAction) {
+  let newState: GetURLParams;
   switch (action.type) {
     case "set":
       const key = action.payload.key;
@@ -45,7 +56,8 @@ export default function Runs() {
     reducer,
     Object.fromEntries(params.entries())
   );
-  const [sha1Valid, sha1Dispatch] = useReducer((_, value) => value, true);
+  const [sha1Valid, sha1Dispatch] = useReducer(
+    (_: any, value: boolean) => value, true);
   const onSha1Change = useCallback((evt) => {
     const value = evt.target.value;
     if (value.length === 0 || value.length === 40) {
@@ -80,7 +92,7 @@ export default function Runs() {
       if (!params.get(key))
         dispatch({
           type: "set",
-          payload: { key, value: null },
+          payload: { key, value: "" },
         });
     }
   }, [history, params, state]);

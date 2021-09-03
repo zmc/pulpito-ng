@@ -11,7 +11,12 @@ import Queue from "./pages/Queue";
 
 import "./App.css";
 
-function App(props) {
+type AppProps = {
+  darkMode: boolean;
+  toggleDarkMode: Function;
+}
+
+function App(props: AppProps) {
   const [drawerOpen, setDrawerOpen] = useState(false);
   return (
     <div className="App">

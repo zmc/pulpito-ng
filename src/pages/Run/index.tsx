@@ -6,8 +6,10 @@ import Button from "@material-ui/core/Button";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import { format } from "date-fns";
 import SourceBranch from "mdi-material-ui/SourceBranch";
+import type { QueryState } from "react-query/types/core/query.d";
 
 import { useRun } from "../../lib/paddles";
+import type { Job } from "../../lib/paddles.d";
 import JobList from "../../components/JobList";
 import Link from "../../components/Link";
 
@@ -19,8 +21,22 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-function reducer(state, action) {
-  let newState;
+type StatusFilterState = {
+  [key: string]: string;
+}
+
+type StatusFilterReducerAction = {
+  type: string;
+  payload: StatusFilterReducerPayload;
+}
+
+type StatusFilterReducerPayload = {
+  key: string;
+  value: string;
+}
+
+function reducer(state: StatusFilterState, action: StatusFilterReducerAction) {
+  let newState: StatusFilterState;
   switch (action.type) {
     case "set":
       newState = { ...state };
@@ -40,13 +56,14 @@ export default function Run() {
   const { name } = useParams();
   const [state, dispatch] = useReducer(reducer, {});
   const query = useRun(name);
-  const setFilter = (key, value) => {
+  const setFilter = (key: string, value: string) => {
     dispatch({
       type: "set",
       payload: { key, value },
     });
   };
-  const suite = query.data?.suite;
+  const data: Job = query.data;
+  const suite = data?.suite;
   const branch = query.data?.branch;
   const statuses = ["pass", "fail", "dead", "running", "waiting"];
   const date = query.data?.scheduled

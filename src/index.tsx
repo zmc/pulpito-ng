@@ -12,26 +12,36 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
+import type { QueryKey } from "./lib/paddles.d";
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       keepPreviousData: true,
       refetchOnWindowFocus: false,
       notifyOnChangeProps: "tracked",
-      staleTime: 1000 * 60 * 60,
-      cacheTime: 1000 * 60 * 60,
-      queryFn: async ({ queryKey }) => {
+      staleTime: 10000 * 60 * 60,
+      cacheTime: 10000 * 60 * 60,
+      queryFn: async (params) => {
+        const queryKey = params.queryKey as QueryKey;
         return axios.get(queryKey[1].url).then((resp) => resp.data);
       },
     },
   },
 });
 
-function useDarkMode() {
-  const systemDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
-  const [state, setState] = React.useState({ system: systemDarkMode });
+type DarkModeState = {
+  system: boolean;
+  user?: boolean;
+}
 
-  function setDarkMode(value) {
+function useDarkMode(): [boolean, Function] {
+  const systemDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
+  const [state, setState] = React.useState(
+  { system: systemDarkMode } as DarkModeState
+  );
+
+  function setDarkMode(value: boolean) {
     const newState = { ...state, user: value };
     if (value !== state.user) {
       setState(newState);
