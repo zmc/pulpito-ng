@@ -5,6 +5,7 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import { format } from "date-fns";
+import SourceBranch from "mdi-material-ui/SourceBranch";
 
 import { useRun } from "../../lib/paddles";
 import JobList from "../../components/JobList";
@@ -64,7 +65,9 @@ export default function Run() {
           </Typography>
         </Link>
         <Link to={`/runs/?branch=${branch}`}>
-          <Typography>branch {branch}</Typography>
+          <Typography>
+            <SourceBranch color="unset" />
+          </Typography>
         </Link>
         <Link to={`/runs/?date=${date}`}>
           <Typography>scheduled on {date}</Typography>
