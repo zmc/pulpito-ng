@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 
 const PADDLES_SERVER =
-  process.env.PADDLES_SERVER || "http://paddles.front.sepia.ceph.com";
+  process.env.REACT_APP_PADDLES_SERVER || "http://paddles.front.sepia.ceph.com";
 
 function getURL(endpoint, params) {
   // Because paddles' API is clunky, we have to do extra work. If it were
