@@ -17,6 +17,7 @@
     "axios": "^0.21.1",
     "color-convert": "^1.9.3",
     "date-fns": "^2.22.1",
+    "dotenv": "^8.2.0",
     "json-to-pretty-yaml": "^1.2.2",
     "mdi-material-ui": "^6.22.1",
     "react": "^17.0.2",
