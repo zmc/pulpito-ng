@@ -7,12 +7,18 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import { ReactQueryDevtools } from "react-query/devtools";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { createTheme, ThemeProvider } from "@material-ui/core/styles";
+import { Theme } from '@material-ui/core/styles';
 
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
 import type { QueryKey } from "./lib/paddles.d";
+
+declare module '@material-ui/styles' {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface DefaultTheme extends Theme {}
+}
 
 const queryClient = new QueryClient({
   defaultOptions: {
