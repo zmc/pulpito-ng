@@ -16,9 +16,12 @@ import formatRelative from "date-fns/formatRelative";
 import formatDistanceToNowStrict from "date-fns/formatDistanceToNowStrict";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import formatDuration from "date-fns/formatDuration";
+import Editor from "react-simple-code-editor";
+import { highlight, languages } from "prismjs/components/prism-core";
+import "prismjs/components/prism-yaml";
+import "prismjs/themes/prism-tomorrow.css";
 
 import YAML from "json-to-pretty-yaml";
-import { CodeBlock, tomorrow, tomorrowNight } from "react-code-blocks";
 
 import { useJob } from "../../lib/paddles";
 import { formatDate, getDuration } from "../../lib/utils";
@@ -105,16 +108,15 @@ function JobHeader({ query }) {
 }
 
 function JobDetails({ query }) {
-  const theme = useTheme();
   if (query.isLoading) return "...";
   if (query.isError) return "!!!";
+  const code = YAML.stringify(query.data);
   return (
-    <CodeBlock
-      text={YAML.stringify(query.data)}
-      language="yaml"
-      theme={theme.palette.type === "light" ? tomorrow : tomorrowNight}
-      codeContainerStyle={{ textAlign: "initial" }}
-      customStyle={{
+    <Editor
+      value={code}
+      readOnly={true}
+      highlight={(code) => highlight(code, languages.yaml)}
+      style={{
         fontFamily: [
           "ui-monospace",
           "SFMono-Regular",
@@ -126,6 +128,7 @@ function JobDetails({ query }) {
           "Courier",
           "monospace",
         ].join(","),
+        textAlign: "initial",
       }}
     />
   );
