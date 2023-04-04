@@ -1,6 +1,6 @@
 import { useReducer } from "react";
 import { useParams } from "react-router-dom";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles, useTheme } from "@material-ui/styles";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
@@ -9,7 +9,7 @@ import SourceBranch from "mdi-material-ui/SourceBranch";
 import type { QueryState } from "react-query/types/core/query.d";
 
 import { useRun } from "../../lib/paddles";
-import type { Job } from "../../lib/paddles.d";
+import type { Job, RunParams } from "../../lib/paddles.d";
 import JobList from "../../components/JobList";
 import Link from "../../components/Link";
 
@@ -53,9 +53,11 @@ function reducer(state: StatusFilterState, action: StatusFilterReducerAction) {
 
 export default function Run() {
   const classes = useStyles();
-  const { name } = useParams();
+  const theme = useTheme();
+  const { name } = useParams<RunParams>();
   const [state, dispatch] = useReducer(reducer, {});
   const query = useRun(name);
+  if (!query.isSuccess) return null;
   const setFilter = (key: string, value: string) => {
     dispatch({
       type: "set",
@@ -83,7 +85,7 @@ export default function Run() {
         </Link>
         <Link to={`/runs/?branch=${branch}`}>
           <Typography>
-            <SourceBranch color="unset" />
+            <SourceBranch style={{"color": theme.palette.text.primary}}/>
           </Typography>
         </Link>
         <Link to={`/runs/?date=${date}`}>
@@ -93,7 +95,7 @@ export default function Run() {
       <ButtonGroup style={{ display: "flex", justifyContent: "center" }}>
         <Button
           onClick={() => {
-            setFilter("status", null);
+            setFilter("status", "");
           }}
         >
           All
