@@ -6,7 +6,6 @@ import Button from "@material-ui/core/Button";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import { format } from "date-fns";
 import SourceBranch from "mdi-material-ui/SourceBranch";
-import type { QueryState } from "react-query/types/core/query.d";
 
 import { useRun } from "../../lib/paddles";
 import type { Job, RunParams } from "../../lib/paddles.d";

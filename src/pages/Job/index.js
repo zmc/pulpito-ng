@@ -12,8 +12,6 @@ import ScheduleIcon from "@material-ui/icons/Schedule";
 import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
 import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
-import formatRelative from "date-fns/formatRelative";
-import formatDistanceToNowStrict from "date-fns/formatDistanceToNowStrict";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import formatDuration from "date-fns/formatDuration";
 import Editor from "react-simple-code-editor";
@@ -24,7 +22,7 @@ import "prismjs/themes/prism-tomorrow.css";
 import YAML from "json-to-pretty-yaml";
 
 import { useJob } from "../../lib/paddles";
-import { formatDate, getDuration } from "../../lib/utils";
+import { getDuration } from "../../lib/utils";
 
 function StatusIcon({ status }) {
   const theme = useTheme();

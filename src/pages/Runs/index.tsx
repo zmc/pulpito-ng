@@ -47,7 +47,7 @@ export default function Runs() {
   const history = createBrowserHistory();
   // We only need useLocation so that the component will render when the URL
   // changes
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line
   const location = useLocation();
   const params = useMemo(() => new URLSearchParams(history.location.search), [
     history.location.search,
