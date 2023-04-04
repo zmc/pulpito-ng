@@ -55,6 +55,7 @@
   "devDependencies": {
     "@types/prismjs": "^1.26.0",
     "@types/react-router-dom": "^5.3.3",
+    "eslint-config-react-app": "^7.0.1",
     "prism-core": "^2.0.2",
     "prismjs": "^1.29.0",
     "react-scripts": "5.0.1"
