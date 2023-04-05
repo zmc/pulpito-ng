@@ -1,36 +1,106 @@
 import { DataGrid as MuiDataGrid } from "@material-ui/data-grid";
+import { darken, lighten } from "@material-ui/core/styles";
 import { makeStyles } from "@material-ui/styles";
 
 import { colorTint } from "../../lib/utils";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    fontSize: 12,
-    "& .MuiDataGrid-columnHeaderTitle": {
-      overflow: "visible",
+function getThemePaletteMode(palette) {
+  return palette.type || palette.mode;
+}
+
+const useStyles = makeStyles((theme) => {
+  const statusColors = {
+    pass: colorTint(theme.palette.success.main, 35),
+    fail: colorTint(theme.palette.error.main, 30),
+    running: colorTint(theme.palette.warning.main, 35),
+    waiting: colorTint(theme.palette.info.main, 35),
+    dead: colorTint(theme.palette.error.main, 25),
+    // queued is neutral color
+  };
+  const getSelectedColor = (color) => {
+    const newColor =
+      getThemePaletteMode(theme.palette) === "dark"
+        ? darken(color, 0.3)
+        : lighten(color, 0.3);
+    return newColor + " !important";
+  };
+  const getHoverColor = (color) => {
+    const newColor =
+      getThemePaletteMode(theme.palette) === "dark"
+        ? lighten(color, 0.3)
+        : darken(color, 0.3);
+    return newColor + " !important";
+  };
+  return {
+    root: {
+      fontSize: 12,
+      "& .MuiDataGrid-columnHeaderTitle": {
+        overflow: "visible",
+      },
+      "& .MuiSvgIcon-root": {
+        width: "0.75em",
+        height: "0.75em",
+      },
+      "& .MuiDataGrid-row": {
+        "&.Mui-selected": {
+          borderColor: theme.palette.secondary.main,
+          borderStyle: "solid",
+          borderWidth: "1px",
+        },
+        "&.status-pass": {
+          backgroundColor: statusColors.pass,
+          color: "black",
+          "&.Mui-selected": {
+            backgroundColor: getSelectedColor(statusColors.pass),
+          },
+          "&:hover": {
+            backgroundColor: getHoverColor(statusColors.pass),
+          },
+        },
+        "&.status-fail": {
+          backgroundColor: statusColors.fail,
+          color: "black",
+          "&.Mui-selected": {
+            backgroundColor: getSelectedColor(statusColors.fail),
+          },
+          "&:hover": {
+            backgroundColor: getHoverColor(statusColors.fail),
+          },
+        },
+        "&.status-dead": {
+          backgroundColor: statusColors.dead,
+          color: "black",
+          "&.Mui-selected": {
+            backgroundColor: getSelectedColor(statusColors.dead),
+          },
+          "&:hover": {
+            backgroundColor: getHoverColor(statusColors.dead),
+          },
+        },
+        "&.status-running": {
+          backgroundColor: statusColors.running,
+          color: "black",
+          "&.Mui-selected": {
+            backgroundColor: getSelectedColor(statusColors.running),
+          },
+          "&:hover": {
+            backgroundColor: getHoverColor(statusColors.running),
+          },
+        },
+        "&.status-waiting": {
+          backgroundColor: statusColors.waiting,
+          color: "black",
+          "&.Mui-selected": {
+            backgroundColor: getSelectedColor(statusColors.waiting),
+          },
+          "&:hover": {
+            backgroundColor: getHoverColor(statusColors.waiting),
+          },
+        },
+      },
     },
-    "& .MuiSvgIcon-root": {
-      width: "0.75em",
-      height: "0.75em",
-    },
-    "& .status-pass": {
-      backgroundColor: colorTint(theme.palette.success.main, 35),
-      color: "black",
-    },
-    "& .status-fail": {
-      backgroundColor: colorTint(theme.palette.error.main, 30),
-      color: "black",
-    },
-    "& .status-running": {
-      backgroundColor: colorTint(theme.palette.warning.main, 35),
-      color: "black",
-    },
-    "& .status-waiting": {
-      backgroundColor: colorTint(theme.palette.info.main, 35),
-      color: "black",
-    },
-  },
-}));
+  };
+});
 
 export default function DataGrid(props) {
   const classes = useStyles();
