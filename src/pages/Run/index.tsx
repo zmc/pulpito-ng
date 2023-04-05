@@ -1,9 +1,9 @@
 import { useReducer } from "react";
 import { useParams } from "react-router-dom";
-import { makeStyles, useTheme } from "@material-ui/styles";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
-import ButtonGroup from "@material-ui/core/ButtonGroup";
+import { makeStyles, useTheme } from "@mui/styles";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import ButtonGroup from "@mui/material/ButtonGroup";
 import { format } from "date-fns";
 import SourceBranch from "mdi-material-ui/SourceBranch";
 

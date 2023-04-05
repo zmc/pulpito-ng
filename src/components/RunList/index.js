@@ -1,5 +1,5 @@
 import { Link as RouterLink } from "react-router-dom";
-import OpenInNewIcon from "@material-ui/icons/OpenInNew";
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 
 import { useRuns } from "../../lib/paddles";
 import { formatDate, formatDuration } from "../../lib/utils";

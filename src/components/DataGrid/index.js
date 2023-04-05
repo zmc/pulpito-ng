@@ -1,11 +1,11 @@
 import { DataGrid as MuiDataGrid } from "@material-ui/data-grid";
-import { darken, lighten } from "@material-ui/core/styles";
-import { makeStyles } from "@material-ui/styles";
+import { darken, lighten } from "@mui/material/styles";
+import { makeStyles } from "@mui/styles";
 
 import { colorTint } from "../../lib/utils";
 
 function getThemePaletteMode(palette) {
-  return palette.type || palette.mode;
+  return palette.mode || palette.mode;
 }
 
 const useStyles = makeStyles((theme) => {

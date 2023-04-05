@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useMemo, useReducer } from "react";
 import { useLocation } from "react-router-dom";
 import { createBrowserHistory } from "history";
-import Typography from "@material-ui/core/Typography";
-import TextField from "@material-ui/core/TextField";
+import Typography from "@mui/material/Typography";
+import TextField from "@mui/material/TextField";
 
 import FilterMenu from "../../components/FilterMenu";
 import RunList from "../../components/RunList";

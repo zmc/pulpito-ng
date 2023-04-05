@@ -1,5 +1,5 @@
-import BugReportIcon from "@material-ui/icons/BugReport";
-import DescriptionIcon from "@material-ui/icons/Description";
+import BugReportIcon from "@mui/icons-material/BugReport";
+import DescriptionIcon from "@mui/icons-material/Description";
 
 import { formatDate, formatDuration } from "../../lib/utils";
 import DataGrid from "../../components/DataGrid";

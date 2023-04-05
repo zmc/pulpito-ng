@@ -3,11 +3,11 @@ import ReactDOM from "react-dom";
 import { BrowserRouter as Router } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import axios from "axios";
-import CssBaseline from "@material-ui/core/CssBaseline";
+import CssBaseline from "@mui/material/CssBaseline";
 import { ReactQueryDevtools } from "react-query/devtools";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { createTheme, ThemeProvider } from "@material-ui/core/styles";
-import { Theme } from '@material-ui/core/styles';
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { createTheme, ThemeProvider, StyledEngineProvider, adaptV4Theme } from "@mui/material/styles";
+import { Theme } from '@mui/material/styles';
 
 import "./index.css";
 import App from "./App";
@@ -15,7 +15,22 @@ import reportWebVitals from "./reportWebVitals";
 
 import type { QueryKey } from "./lib/paddles.d";
 
-declare module '@material-ui/styles' {
+
+
+declare module '@mui/styles/defaultTheme' {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface DefaultTheme extends Theme {}
+}
+
+
+
+declare module '@mui/styles/defaultTheme' {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface DefaultTheme extends Theme {}
+}
+
+
+declare module '@mui/styles' {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
   interface DefaultTheme extends Theme {}
 }
@@ -65,7 +80,7 @@ export default function Root() {
   };
   const theme = React.useMemo(() => {
     const paletteType = darkMode ? "dark" : "light";
-    const theme = createTheme({ palette: { type: paletteType } });
+    const theme = createTheme(adaptV4Theme({ palette: { mode: paletteType } }));
     if (darkMode) {
       theme.palette.background.default = "#181818";
       theme.palette.background.paper = "#303030";
@@ -77,15 +92,17 @@ export default function Root() {
   }
   return (
     <React.StrictMode>
-      <ThemeProvider theme={theme}>
-        <Router>
-          <CssBaseline />
-          <QueryClientProvider client={queryClient}>
-            <ReactQueryDevtools initialIsOpen={false} />
-            <App darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
-          </QueryClientProvider>
-        </Router>
-      </ThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <Router>
+            <CssBaseline />
+            <QueryClientProvider client={queryClient}>
+              <ReactQueryDevtools initialIsOpen={false} />
+              <App darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
+            </QueryClientProvider>
+          </Router>
+        </ThemeProvider>
+      </StyledEngineProvider>
     </React.StrictMode>
   );
 }

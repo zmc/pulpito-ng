@@ -1,6 +1,6 @@
-import { makeStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import Autocomplete from "@material-ui/lab/Autocomplete";
+import makeStyles from '@mui/styles/makeStyles';
+import TextField from "@mui/material/TextField";
+import Autocomplete from '@mui/material/Autocomplete';
 
 import {
   useBranches,

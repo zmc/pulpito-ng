@@ -1,9 +1,9 @@
 import { Link as RouterLink } from "react-router-dom";
-import { makeStyles } from "@material-ui/core/styles";
-import { useTheme } from "@material-ui/core/styles";
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
-import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
+import makeStyles from '@mui/styles/makeStyles';
+import { useTheme } from "@mui/material/styles";
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from "@mui/icons-material/Menu";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 
 const useStyles = makeStyles((theme) => ({
   toolbarIcon: {
@@ -52,7 +52,7 @@ export default function Drawer(props) {
           onClick={() => {
             props.setDrawerOpen(false);
           }}
-        >
+          size="large">
           <MenuIcon />
         </IconButton>
       </div>
