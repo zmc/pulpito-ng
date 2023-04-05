@@ -1,4 +1,4 @@
-import { DataGrid as MuiDataGrid } from "@material-ui/data-grid";
+import { DataGrid as MuiDataGrid } from "@mui/x-data-grid";
 import { darken, lighten } from "@mui/material/styles";
 import { makeStyles } from "@mui/styles";
 
