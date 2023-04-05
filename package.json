@@ -4,6 +4,8 @@
   "private": true,
   "homepage": "https://zmc.github.io/pulpito-ng/",
   "dependencies": {
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
     "@material-ui/core": "^4.12.4",
     "@material-ui/data-grid": "^4.0.0-alpha.34",
     "@material-ui/icons": "^4.11.3",
