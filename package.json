@@ -2,6 +2,7 @@
   "name": "pulpito-ng",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://zmc.github.io/pulpito-ng/",
   "dependencies": {
     "@material-ui/core": "^4.12.4",
     "@material-ui/data-grid": "^4.0.0-alpha.34",
