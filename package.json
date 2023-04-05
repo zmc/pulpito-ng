@@ -8,6 +8,7 @@
     "@material-ui/data-grid": "^4.0.0-alpha.34",
     "@material-ui/icons": "^4.11.3",
     "@material-ui/lab": "^4.0.0-alpha.60",
+    "@mui/icons-material": "^5.11.16",
     "@mui/lab": "^5.0.0-alpha.125",
     "@mui/material": "^5.11.16",
     "@mui/styles": "^5.11.16",
