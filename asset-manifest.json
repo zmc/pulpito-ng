@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/pulpito-ng/static/css/main.ed418844.css",
-    "main.js": "/pulpito-ng/static/js/main.78259ea8.js",
-    "static/js/787.c5483868.chunk.js": "/pulpito-ng/static/js/787.c5483868.chunk.js",
-    "index.html": "/pulpito-ng/index.html",
-    "main.ed418844.css.map": "/pulpito-ng/static/css/main.ed418844.css.map",
-    "main.78259ea8.js.map": "/pulpito-ng/static/js/main.78259ea8.js.map",
-    "787.c5483868.chunk.js.map": "/pulpito-ng/static/js/787.c5483868.chunk.js.map"
+    "main.css": "https://paddles-ng.ceph.com/static/css/main.ed418844.css",
+    "main.js": "https://paddles-ng.ceph.com/static/js/main.e9d91e4e.js",
+    "static/js/787.c5483868.chunk.js": "https://paddles-ng.ceph.com/static/js/787.c5483868.chunk.js",
+    "index.html": "https://paddles-ng.ceph.com/index.html",
+    "main.ed418844.css.map": "https://paddles-ng.ceph.com/static/css/main.ed418844.css.map",
+    "main.e9d91e4e.js.map": "https://paddles-ng.ceph.com/static/js/main.e9d91e4e.js.map",
+    "787.c5483868.chunk.js.map": "https://paddles-ng.ceph.com/static/js/787.c5483868.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.ed418844.css",
-    "static/js/main.78259ea8.js"
+    "static/js/main.e9d91e4e.js"
   ]
 }
