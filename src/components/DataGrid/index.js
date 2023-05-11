@@ -5,16 +5,16 @@ import { makeStyles } from "@mui/styles";
 import { colorTint } from "../../lib/utils";
 
 function getThemePaletteMode(palette) {
-  return palette.mode || palette.mode;
+  return palette.mode;
 }
 
 const useStyles = makeStyles((theme) => {
   const statusColors = {
-    pass: colorTint(theme.palette.success.main, 35),
-    fail: colorTint(theme.palette.error.main, 30),
-    running: colorTint(theme.palette.warning.main, 35),
-    waiting: colorTint(theme.palette.info.main, 35),
-    dead: colorTint(theme.palette.error.main, 25),
+    pass: colorTint(theme.palette.success.main, 20),
+    fail: colorTint(theme.palette.error.main, 15),
+    running: colorTint(theme.palette.warning.main, 20),
+    waiting: colorTint(theme.palette.info.main, 20),
+    dead: colorTint(theme.palette.error.main, 10),
     // queued is neutral color
   };
   const getSelectedColor = (color) => {
