@@ -123,9 +123,9 @@ export default function JobList({ query, state }) {
     filterModel = {
       items: [
         {
-          columnField: Object.keys(state)[0],
+          field: Object.keys(state)[0],
           value: Object.values(state)[0],
-          operatorValue: "equals",
+          operator: "equals",
         },
       ],
     };
