@@ -131,12 +131,16 @@ export default function RunList(props) {
       columns={columns}
       rows={query.data || []}
       loading={query.isLoading || query.isFetching}
-      sortModel={[
-        {
-          field: "scheduled",
-          sort: "desc",
+      initialState={{
+        sorting: {
+          sortModel: [
+            {
+              field: "scheduled",
+              sort: "desc",
+            },
+          ],
         },
-      ]}
+      }}
       getRowId={(row) => row.name}
       getRowClassName={(params) => {
         const status = params.row.status.split(" ").pop();

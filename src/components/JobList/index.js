@@ -136,12 +136,16 @@ export default function JobList({ query, state }) {
       rows={query.data?.jobs || []}
       pageSize={25}
       loading={query.isLoading || query.isFetching}
-      sortModel={[
-        {
-          field: "job_id",
-          sort: "asc",
+      initialState={{
+        sorting: {
+          sortModel: [
+            {
+              field: "job_id",
+              sort: "asc",
+            },
+          ],
         },
-      ]}
+      }}
       filterModel={filterModel}
       getRowId={(row) => row.job_id}
       getRowClassName={(params) => {
