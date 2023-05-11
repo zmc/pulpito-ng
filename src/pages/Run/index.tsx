@@ -6,11 +6,14 @@ import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import { format } from "date-fns";
 import SourceBranch from "mdi-material-ui/SourceBranch";
+import { Helmet } from "react-helmet";
+
+import type { Job, RunParams } from "../../lib/paddles.d";
 
 import { useRun } from "../../lib/paddles";
-import type { Job, RunParams } from "../../lib/paddles.d";
 import JobList from "../../components/JobList";
 import Link from "../../components/Link";
+
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -73,6 +76,9 @@ export default function Run() {
     : null;
   return (
     <div className={classes.root}>
+      <Helmet>
+        <title>{ `${name} - Pulpito` }</title>
+      </Helmet>
       <Typography variant="h5" style={{ margin: "20px 0px" }}>
         {name}
       </Typography>

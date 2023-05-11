@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import { Routes, Route } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 import AppBar from "./components/AppBar";
 import Drawer from "./components/Drawer";
@@ -20,6 +21,9 @@ function App(props: AppProps) {
   const [drawerOpen, setDrawerOpen] = useState(false);
   return (
     <div className="App">
+      <Helmet>
+        <title>Pulpito</title>
+      </Helmet>
       <header className="App-header">
         <AppBar
           setDrawerOpen={setDrawerOpen}

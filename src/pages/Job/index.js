@@ -16,6 +16,7 @@ import Editor from "react-simple-code-editor";
 import { highlight, languages } from "prismjs/components/prism-core";
 import "prismjs/components/prism-yaml";
 import "prismjs/themes/prism-tomorrow.css";
+import { Helmet } from "react-helmet";
 
 import YAML from "json-to-pretty-yaml";
 
@@ -128,6 +129,9 @@ export default function Job() {
   const query = useJob(name, job_id);
   return (
     <Grid container spacing={2}>
+      <Helmet>
+        <title>{`Job ${job_id} - Pulpito`}</title>
+      </Helmet>
       <Grid item xs={12} style={{ display: "flex" }}>
         <StatusIcon status={query.data?.status} />
         <Typography variant="h5">

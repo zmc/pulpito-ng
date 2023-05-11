@@ -1,6 +1,6 @@
 import { Link as RouterLink } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
@@ -42,7 +42,8 @@ export default function AppBar(props) {
           onClick={() => {
             props.setDrawerOpen(true);
           }}
-          size="large">
+          size="large"
+        >
           <MenuIcon />
         </IconButton>
         <Typography

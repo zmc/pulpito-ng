@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
+import { Helmet } from "react-helmet";
 
 import FilterMenu from "../../components/FilterMenu";
 import RunList from "../../components/RunList";
@@ -98,6 +99,9 @@ export default function Runs() {
   }, [history, params, state]);
   return (
     <div>
+      <Helmet>
+        <title>Runs - Pulpito</title>
+      </Helmet>
       <Typography variant="h5" style={{ margin: "20px" }}>
         Runs
       </Typography>
