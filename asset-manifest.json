@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "https://pulpito-ng.ceph.com/static/css/main.ed418844.css",
-    "main.js": "https://pulpito-ng.ceph.com/static/js/main.9c50609d.js",
-    "static/js/787.c5483868.chunk.js": "https://pulpito-ng.ceph.com/static/js/787.c5483868.chunk.js",
-    "index.html": "https://pulpito-ng.ceph.com/index.html",
-    "main.ed418844.css.map": "https://pulpito-ng.ceph.com/static/css/main.ed418844.css.map",
-    "main.9c50609d.js.map": "https://pulpito-ng.ceph.com/static/js/main.9c50609d.js.map",
-    "787.c5483868.chunk.js.map": "https://pulpito-ng.ceph.com/static/js/787.c5483868.chunk.js.map"
+    "main.css": "/pulpito-ng/static/css/main.ed418844.css",
+    "main.js": "/pulpito-ng/static/js/main.e9b031d1.js",
+    "static/js/787.c5483868.chunk.js": "/pulpito-ng/static/js/787.c5483868.chunk.js",
+    "index.html": "/pulpito-ng/index.html",
+    "main.ed418844.css.map": "/pulpito-ng/static/css/main.ed418844.css.map",
+    "main.e9b031d1.js.map": "/pulpito-ng/static/js/main.e9b031d1.js.map",
+    "787.c5483868.chunk.js.map": "/pulpito-ng/static/js/787.c5483868.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.ed418844.css",
-    "static/js/main.9c50609d.js"
+    "static/js/main.e9b031d1.js"
   ]
 }
