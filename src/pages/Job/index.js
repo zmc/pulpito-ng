@@ -1,9 +1,7 @@
 import { useParams } from "react-router-dom";
-import { Link as RouterLink } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import Link from "@mui/material/Link";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -21,6 +19,7 @@ import "prismjs/themes/prism-tomorrow.css";
 
 import YAML from "json-to-pretty-yaml";
 
+import Link from "../../components/Link";
 import { useJob } from "../../lib/paddles";
 import { getDuration } from "../../lib/utils";
 
@@ -72,15 +71,7 @@ function JobHeader({ query }) {
         <Typography>
           Nodes:&nbsp;
           {Object.keys(query.data.targets || []).map((item) => {
-            return (
-              <RouterLink
-                to={`/nodes/${item}`}
-                component={Link}
-                target="_blank"
-              >
-                {item.split(".")[0]}
-              </RouterLink>
-            );
+            return <Link to={`/nodes/${item}`}>{item.split(".")[0]}</Link>;
           })}
         </Typography>
         <Typography>
@@ -140,10 +131,7 @@ export default function Job() {
       <Grid item xs={12} style={{ display: "flex" }}>
         <StatusIcon status={query.data?.status} />
         <Typography variant="h5">
-          <RouterLink to={`/runs/${name}`} component={Link} target="_blank">
-            {name}
-          </RouterLink>
-          /{job_id}
+          <Link to={`/runs/${name}`}>{name}</Link>/{job_id}
         </Typography>
       </Grid>
       <JobHeader query={query} />

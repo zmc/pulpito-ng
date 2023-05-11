@@ -24,12 +24,12 @@ const columns = [
       return (
         <div>
           {params.value.log ? (
-            <IconLink href={params.value.log}>
+            <IconLink to={params.value.log}>
               <DescriptionIcon />
             </IconLink>
           ) : null}
           {params.value.sentry ? (
-            <IconLink href={params.value.sentry}>
+            <IconLink to={params.value.sentry}>
               <BugReportIcon />
             </IconLink>
           ) : null}
@@ -42,7 +42,7 @@ const columns = [
     headerName: "job ID",
     renderCell: (params) => {
       return (
-        <IconLink href={`/runs/${params.row.name}/jobs/${params.value}`}>
+        <IconLink to={`/runs/${params.row.name}/jobs/${params.value}`}>
           {params.value}
         </IconLink>
       );

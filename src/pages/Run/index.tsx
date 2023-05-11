@@ -55,7 +55,8 @@ export default function Run() {
   const theme = useTheme();
   const { name } = useParams<RunParams>();
   const [state, dispatch] = useReducer(reducer, {});
-  const query = useRun(name);
+  const query = useRun(name === undefined? "" : name);
+  if ( query === null ) return (<Typography>404</Typography>);
   if (!query.isSuccess) return null;
   const setFilter = (key: string, value: string) => {
     dispatch({

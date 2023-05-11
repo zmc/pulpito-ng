@@ -1,4 +1,3 @@
-import { Link as RouterLink } from "react-router-dom";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 
 import { useRuns } from "../../lib/paddles";
@@ -20,13 +19,9 @@ const _columns = [
     width: 60,
     renderCell: (params) => {
       return (
-        <RouterLink
-          to={`/runs/${params.value}`}
-          component={IconLink}
-          target="_blank"
-        >
+        <IconLink to={`/runs/${params.value}`}>
           <OpenInNewIcon />
-        </RouterLink>
+        </IconLink>
       );
     },
   },

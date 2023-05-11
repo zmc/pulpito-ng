@@ -1,9 +1,9 @@
-import Link from "@mui/material/Link";
+import MuiLink from "@mui/material/Link";
 
 export default function IconLink(props) {
   return (
-    <Link href={props.href} target="_blank" color="inherit">
+    <MuiLink href={props.to} target="_blank" color="inherit">
       {props.children}
-    </Link>
+    </MuiLink>
   );
 }
