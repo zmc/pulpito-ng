@@ -6,7 +6,7 @@ import axios from "axios";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ReactQueryDevtools } from "react-query/devtools";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { createTheme, ThemeProvider, StyledEngineProvider, adaptV4Theme } from "@mui/material/styles";
+import { createTheme, ThemeProvider, StyledEngineProvider } from "@mui/material/styles";
 import { Theme } from '@mui/material/styles';
 
 import "./index.css";
@@ -80,7 +80,7 @@ export default function Root() {
   };
   const theme = React.useMemo(() => {
     const paletteType = darkMode ? "dark" : "light";
-    const theme = createTheme(adaptV4Theme({ palette: { mode: paletteType } }));
+    const theme = createTheme({ palette: { mode: paletteType } });
     if (darkMode) {
       theme.palette.background.default = "#181818";
       theme.palette.background.paper = "#303030";
