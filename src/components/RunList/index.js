@@ -54,45 +54,47 @@ const _columns = [
       return Math.round((start - end) / 1000);
     },
     valueFormatter: (row) => formatDuration(row.value),
+    width: 70,
   },
   {
     field: "suite",
   },
   {
     field: "branch",
-    width: 350,
   },
   {
     field: "machine_type",
+    width: 90,
   },
   {
     field: "sha1",
     headerName: "hash",
+    width: 75,
   },
   {
     field: "queued",
     valueGetter: resultsGetter,
-    width: 85,
+    width: 60,
   },
   {
     field: "pass",
     valueGetter: resultsGetter,
-    width: 85,
+    width: 60,
   },
   {
     field: "fail",
     valueGetter: resultsGetter,
-    width: 85,
+    width: 60,
   },
   {
     field: "dead",
     valueGetter: resultsGetter,
-    width: 85,
+    width: 60,
   },
   {
     field: "running",
     valueGetter: resultsGetter,
-    width: 85,
+    width: 60,
   },
 ];
 
@@ -116,6 +118,7 @@ export default function RunList(props) {
   };
   const paginationMode = typeof dispatch === "function" ? "server" : "client";
   const columns = [..._columns];
+  /*  If we want to automatically size the branch column:
   if (query.isSuccess) {
     const branchLength = Math.max(
       ...query.data.map((item) => item.branch.length)
@@ -126,6 +129,7 @@ export default function RunList(props) {
       }
     });
   }
+  */
   return (
     <DataGrid
       columns={columns}
