@@ -67,7 +67,7 @@ function useRun(name: string) {
 }
 
 function useJob(name: string, job_id: number) {
-  const url = getURL(`/runs/${name}/jobs/${job_id}`);
+  const url = getURL(`/runs/${name}/jobs/${job_id}/`);
   const query = useQuery(["job", { url }], {});
   return query;
 }
