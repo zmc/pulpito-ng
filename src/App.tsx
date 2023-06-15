@@ -39,6 +39,8 @@ function App(props: AppProps) {
           <Route path="/runs/:name" element={<Run />} />
           <Route path="/runs/:name/jobs/:job_id" element={<Job />} />
           <Route path="/queue" element={<Queue />} />
+          <Route path="/:name" element={<Run />} />
+          <Route path="/:name/:job_id" element={<Job />} />
         </Routes>
       </div>
     </div>
