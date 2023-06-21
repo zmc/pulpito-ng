@@ -1,4 +1,3 @@
-import BugReportIcon from "@mui/icons-material/BugReport";
 import DescriptionIcon from "@mui/icons-material/Description";
 
 import { formatDate, formatDuration } from "../../lib/utils";
@@ -30,7 +29,7 @@ const columns = [
           ) : null}
           {params.value.sentry ? (
             <IconLink to={params.value.sentry}>
-              <BugReportIcon />
+                <img src={require('../JobList/assets/sentry.svg').default} alt='mySvgImage' />
             </IconLink>
           ) : null}
         </div>
@@ -138,7 +137,7 @@ export default function JobList({ query, state }) {
       loading={query.isLoading || query.isFetching}
       initialState={{
         sorting: {
-          sortModel: [
+          sortModel:[
             {
               field: "job_id",
               sort: "asc",
