@@ -1,0 +1,20 @@
+name: ci
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: write
+jobs:
+  install-lint-build:
+    concurrency: ci-${{ github.ref }} # Recommended if you intend to make multiple deployments in quick succession.
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install
+        run: npm install
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build
+        run: npm run build
