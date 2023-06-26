@@ -10,14 +10,12 @@ import ScheduleIcon from "@mui/icons-material/Schedule";
 import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
-import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import formatDuration from "date-fns/formatDuration";
 import Editor from "react-simple-code-editor";
 import { highlight, languages } from "prismjs/components/prism-core";
 import "prismjs/components/prism-yaml";
 import "prismjs/themes/prism-tomorrow.css";
 import { Helmet } from "react-helmet";
-
 import YAML from "json-to-pretty-yaml";
 
 import Link from "../../components/Link";
@@ -44,6 +42,30 @@ function StatusIcon({ status }) {
   return <Icon style={style} />;
 }
 
+function timeSince(date) {
+  let minute = 60;
+  let hour   = minute * 60;
+  let day    = hour   * 24;
+  let month  = day    * 30;
+  let year   = day    * 365;
+
+  let suffix = ' ago';
+
+  let elapsed = Math.floor((Date.now() - date) / 1000);
+
+  if (elapsed < minute) {
+    return 'just now';
+  }
+
+  let a = elapsed < hour ? [Math.floor(elapsed / minute), 'minute'] :
+          elapsed < day ? [Math.floor(elapsed / hour), 'hour'] :
+          elapsed < month ? [Math.floor(elapsed / day), 'day'] :
+          elapsed < year ? [Math.floor(elapsed / month), 'month'] :
+          [Math.floor(elapsed / year), 'year'];
+          
+  return a[0] + ' ' + a[1] + (a[0] === 1 ? '' : 's') + suffix;
+}
+
 function JobHeader({ query }) {
   if (!query.isSuccess) return null;
   return (
@@ -51,7 +73,7 @@ function JobHeader({ query }) {
       <Grid item xs={4}>
         <Typography>Status: {query.data.status}</Typography>
         <Typography>
-          Started {formatDistanceToNow(new Date(query.data.started))} ago
+          {timeSince(new Date(query.data.started))}
         </Typography>
         {query.data.duration ? (
           <Typography>
