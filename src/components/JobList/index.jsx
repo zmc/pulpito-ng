@@ -4,6 +4,8 @@ import { formatDate, formatDuration } from "../../lib/utils";
 import DataGrid from "../../components/DataGrid";
 import IconLink from "../../components/IconLink";
 
+import sentryIcon from "./assets/sentry.svg";
+
 const columns = [
   {
     field: "status",
@@ -29,7 +31,7 @@ const columns = [
           ) : null}
           {params.value.sentry ? (
             <IconLink to={params.value.sentry}>
-                <img src={require('../JobList/assets/sentry.svg').default} alt='mySvgImage' />
+              <img src={sentryIcon} alt='Sentry icon' />
             </IconLink>
           ) : null}
         </div>
