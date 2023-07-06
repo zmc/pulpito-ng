@@ -7,33 +7,12 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { ReactQueryDevtools } from "react-query/devtools";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { createTheme, ThemeProvider, StyledEngineProvider } from "@mui/material/styles";
-import { Theme } from '@mui/material/styles';
 
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
 import type { QueryKey } from "./lib/paddles.d";
-
-
-
-declare module '@mui/styles/defaultTheme' {
-  // eslint-disable-next-line @typescript-eslint/no-empty-interface
-  interface DefaultTheme extends Theme {}
-}
-
-
-
-declare module '@mui/styles/defaultTheme' {
-  // eslint-disable-next-line @typescript-eslint/no-empty-interface
-  interface DefaultTheme extends Theme {}
-}
-
-
-declare module '@mui/styles' {
-  // eslint-disable-next-line @typescript-eslint/no-empty-interface
-  interface DefaultTheme extends Theme {}
-}
 
 const queryClient = new QueryClient({
   defaultOptions: {
