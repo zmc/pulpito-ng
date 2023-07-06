@@ -19,8 +19,8 @@ const queryClient = new QueryClient({
     queries: {
       keepPreviousData: true,
       refetchOnWindowFocus: false,
-      staleTime: 10000 * 60 * 60,
-      cacheTime: 10000 * 60 * 60,
+      staleTime: 0,
+      cacheTime: 0,
       queryFn: async (params) => {
         const queryKey = params.queryKey as QueryKey;
         return axios.get(queryKey[1].url).then((resp) => resp.data);
