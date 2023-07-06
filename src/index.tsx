@@ -1,10 +1,10 @@
 import React from "react";
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter as Router } from "react-router-dom";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import axios from "axios";
 import CssBaseline from "@mui/material/CssBaseline";
-import { ReactQueryDevtools } from "react-query/devtools";
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { createTheme, ThemeProvider, StyledEngineProvider } from "@mui/material/styles";
 
@@ -19,7 +19,6 @@ const queryClient = new QueryClient({
     queries: {
       keepPreviousData: true,
       refetchOnWindowFocus: false,
-      notifyOnChangeProps: "tracked",
       staleTime: 10000 * 60 * 60,
       cacheTime: 10000 * 60 * 60,
       queryFn: async (params) => {
