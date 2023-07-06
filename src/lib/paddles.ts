@@ -3,7 +3,7 @@ import { useQuery } from "react-query";
 import type { GetURLParams, Run, Job } from "./paddles.d";
 
 const PADDLES_SERVER =
-  process.env.REACT_APP_PADDLES_SERVER ||
+  import.meta.env.REACT_APP_PADDLES_SERVER ||
   "https://paddles.front.sepia.ceph.com";
 
 function getURL(endpoint: string, params?: GetURLParams) {

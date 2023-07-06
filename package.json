@@ -36,10 +36,9 @@
     "web-vitals": "^1.1.2"
   },
   "scripts": {
-    "start": "BROWSER=none react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
+    "start": "vite",
+    "build": "vite build",
+    "serve": "vite preview",
     "lint": "eslint src"
   },
   "eslintConfig": {
@@ -63,8 +62,9 @@
   "devDependencies": {
     "@types/prismjs": "^1.26.0",
     "@types/react-router-dom": "^5.3.3",
+    "@vitejs/plugin-react": "^4.0.2",
     "eslint-config-react-app": "^7.0.1",
     "prismjs": "^1.29.0",
-    "react-scripts": "5.0.1"
+    "vite": "^4.4.1"
   }
 }
