@@ -1,14 +1,20 @@
 import { DataGrid as MuiDataGrid } from "@mui/x-data-grid";
+import { styled } from '@mui/material/styles';
 import { darken, lighten } from "@mui/material/styles";
-import { makeStyles } from "@mui/styles";
 
 import { colorTint } from "../../lib/utils";
 
-function getThemePaletteMode(palette) {
-  return palette.mode;
-}
+const PREFIX = 'index';
 
-const useStyles = makeStyles((theme) => {
+const classes = {
+  root: `${PREFIX}-root`
+};
+
+const Root = styled('div')((
+  {
+    theme
+  }
+) => {
   const statusColors = {
     pass: colorTint(theme.palette.success.main, 20),
     fail: colorTint(theme.palette.error.main, 15),
@@ -32,7 +38,7 @@ const useStyles = makeStyles((theme) => {
     return newColor + " !important";
   };
   return {
-    root: {
+    [`& .${classes.root}`]: {
       fontSize: 12,
       "& .MuiDataGrid-columnHeaderTitle": {
         overflow: "visible",
@@ -102,10 +108,14 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
+function getThemePaletteMode(palette) {
+  return palette.mode;
+}
+
 export default function DataGrid(props) {
-  const classes = useStyles();
+
   return (
-    <div style={{ width: "100%" }}>
+    <Root style={{ width: "100%" }}>
       <div style={{ display: "flex", height: "100%" }}>
         <div style={{ flexGrow: 1 }}>
           <MuiDataGrid
@@ -117,6 +127,6 @@ export default function DataGrid(props) {
           />
         </div>
       </div>
-    </div>
+    </Root>
   );
 }

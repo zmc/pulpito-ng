@@ -1,4 +1,4 @@
-import makeStyles from '@mui/styles/makeStyles';
+import { styled } from '@mui/material/styles';
 import TextField from "@mui/material/TextField";
 import Autocomplete from '@mui/material/Autocomplete';
 
@@ -9,8 +9,14 @@ import {
   useStatuses,
 } from "../../lib/paddles";
 
-const useStyles = makeStyles({
-  filterMenu: {
+const PREFIX = 'index';
+
+const classes = {
+  filterMenu: `${PREFIX}-filterMenu`
+};
+
+const StyledTextField = styled(TextField)({
+  [`& .${classes.filterMenu}`]: {
     padding: "10px",
   },
 });
@@ -39,7 +45,7 @@ const types = {
 };
 
 export default function FilterMenu(props) {
-  const classes = useStyles();
+
   const opts = types[props.type];
   const query = opts.queryHook();
   if (query.isError) console.error(query.error);
@@ -74,7 +80,7 @@ export default function FilterMenu(props) {
       loading={query.isLoading}
       onChange={onChange}
       options={query.data || []}
-      renderInput={(params) => <TextField {...params} label={opts.label} />}
+      renderInput={(params) => <StyledTextField {...params} label={opts.label} />}
       className={classes.filterMenu}
       style={opts.style}
       size="small"

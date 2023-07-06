@@ -1,6 +1,6 @@
 import { useReducer } from "react";
+import { styled, useTheme } from '@mui/material/styles';
 import { useParams } from "react-router-dom";
-import { makeStyles, useTheme } from "@mui/styles";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
@@ -15,12 +15,18 @@ import JobList from "../../components/JobList";
 import Link from "../../components/Link";
 
 
-const useStyles = makeStyles(() => ({
-  root: {
+const PREFIX = 'index';
+
+const classes = {
+  root: `${PREFIX}-root`
+};
+
+const Root = styled('div')(() => ({
+  [`&.${classes.root}`]: {
     "& .MuiButton-root": {
       textTransform: "none",
     },
-  },
+  }
 }));
 
 type StatusFilterState = {
@@ -54,7 +60,7 @@ function reducer(state: StatusFilterState, action: StatusFilterReducerAction) {
 }
 
 export default function Run() {
-  const classes = useStyles();
+
   const theme = useTheme();
   const { name } = useParams<RunParams>();
   const [state, dispatch] = useReducer(reducer, {});
@@ -75,7 +81,7 @@ export default function Run() {
     ? format(new Date(query.data.scheduled), "yyyy-MM-dd")
     : null;
   return (
-    <div className={classes.root}>
+    <Root className={classes.root}>
       <Helmet>
         <title>{ `${name} - Pulpito` }</title>
       </Helmet>
@@ -118,6 +124,6 @@ export default function Run() {
         ))}
       </ButtonGroup>
       <JobList query={query} state={state} />
-    </div>
+    </Root>
   );
 }

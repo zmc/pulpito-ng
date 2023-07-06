@@ -1,6 +1,6 @@
 import { Link as RouterLink } from "react-router-dom";
+import { styled } from '@mui/material/styles';
 import { useTheme } from "@mui/material/styles";
-import makeStyles from "@mui/styles/makeStyles";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
@@ -9,14 +9,28 @@ import MuiAppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 
-const useStyles = makeStyles((theme) => ({
-  appBar: {
+const PREFIX = 'index';
+
+const classes = {
+  appBar: `${PREFIX}-appBar`,
+  title: `${PREFIX}-title`,
+  toolbarIcon: `${PREFIX}-toolbarIcon`
+};
+
+const StyledMuiAppBar = styled(MuiAppBar)((
+  {
+    theme
+  }
+) => ({
+  [`&.${classes.appBar}`]: {
     zIndex: theme.zIndex.drawer + 1,
   },
-  title: {
+
+  [`& .${classes.title}`]: {
     flexGrow: 1,
   },
-  toolbarIcon: {
+
+  [`& .${classes.toolbarIcon}`]: {
     ...theme.mixins.toolbar,
     position: "sticky",
     top: "0",
@@ -26,14 +40,14 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "flex-end",
     padding: "0 8px",
-  },
+  }
 }));
 
 export default function AppBar(props) {
   const theme = useTheme();
-  const classes = useStyles(theme);
+
   return (
-    <MuiAppBar position="static" className={classes.appBar}>
+    <StyledMuiAppBar position="static" className={classes.appBar}>
       <Toolbar>
         <IconButton
           edge="start"
@@ -68,6 +82,6 @@ export default function AppBar(props) {
           {props.darkMode ? <Brightness7Icon /> : <Brightness4Icon />}
         </IconButton>
       </Toolbar>
-    </MuiAppBar>
+    </StyledMuiAppBar>
   );
 }

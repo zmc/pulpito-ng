@@ -1,12 +1,24 @@
 import { Link as RouterLink } from "react-router-dom";
-import makeStyles from '@mui/styles/makeStyles';
+import { styled } from '@mui/material/styles';
 import { useTheme } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 
-const useStyles = makeStyles((theme) => ({
-  toolbarIcon: {
+const PREFIX = 'index';
+
+const classes = {
+  toolbarIcon: `${PREFIX}-toolbarIcon`,
+  drawerPaper: `${PREFIX}-drawerPaper`,
+  drawerLink: `${PREFIX}-drawerLink`
+};
+
+const StyledSwipeableDrawer = styled(SwipeableDrawer)((
+  {
+    theme
+  }
+) => ({
+  [`& .${classes.toolbarIcon}`]: {
     ...theme.mixins.toolbar,
     position: "sticky",
     top: "0",
@@ -17,22 +29,24 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "flex-end",
     padding: "0 8px",
   },
-  drawerPaper: {
+
+  [`& .${classes.drawerPaper}`]: {
     width: "150px",
   },
-  drawerLink: {
+
+  [`& .${classes.drawerLink}`]: {
     color: theme.palette.text.primary,
     textDecoration: "none",
     padding: "10px 20px",
     fontSize: "16px",
-  },
+  }
 }));
 
 export default function Drawer(props) {
   const theme = useTheme();
-  const classes = useStyles(theme);
+
   return (
-    <SwipeableDrawer
+    <StyledSwipeableDrawer
       open={props.drawerOpen}
       onOpen={() => {
         props.setDrawerOpen(true);
@@ -62,6 +76,6 @@ export default function Drawer(props) {
       <RouterLink to="/runs" className={classes.drawerLink}>
         Runs
       </RouterLink>
-    </SwipeableDrawer>
+    </StyledSwipeableDrawer>
   );
 }
