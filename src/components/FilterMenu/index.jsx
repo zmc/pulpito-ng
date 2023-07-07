@@ -2,13 +2,6 @@ import { styled } from '@mui/material/styles';
 import TextField from "@mui/material/TextField";
 import Autocomplete from '@mui/material/Autocomplete';
 
-import {
-  useBranches,
-  useMachineTypes,
-  useSuites,
-  useStatuses,
-} from "../../lib/paddles";
-
 const PREFIX = 'index';
 
 const classes = {
@@ -21,36 +14,14 @@ const StyledTextField = styled(TextField)({
   },
 });
 
-const types = {
-  branch: {
-    label: "Branch",
-    queryHook: useBranches,
-    style: { width: 250 },
-  },
-  suite: {
-    label: "Suite",
-    queryHook: useSuites,
-    style: { width: 250 },
-  },
-  machine_type: {
-    label: "Machine Type",
-    queryHook: useMachineTypes,
-    style: { width: 150 },
-  },
-  status: {
-    label: "Status",
-    queryHook: useStatuses,
-    style: { width: 200 },
-  },
-};
-
-export default function FilterMenu(props) {
-
-  const opts = types[props.type];
-  const query = opts.queryHook();
+export default function FilterMenu({type, value, setter, optionsHook, width}) {
+  const query = optionsHook();
   if (query.isError) console.error(query.error);
-  const onChange = (_, value) => {
-    props.dispatch({ type: "set", payload: { key: props.type, value } });
+  const style = {textTransform: "capitalize"};
+  const label = type.replaceAll("_", " ");
+  if ( width ) style.width = width;
+  const onChange = (_, newValue) => {
+    setter({[type]: newValue})
   };
   const filterOptions = (options, { inputValue }) => {
     if (!inputValue) return options;
@@ -73,16 +44,16 @@ export default function FilterMenu(props) {
 
   return (
     <Autocomplete
-      value={props.state[props.type] || null}
+      value={value || null}
       filterOptions={filterOptions}
       autoHighlight
       autoSelect
       loading={query.isLoading}
       onChange={onChange}
       options={query.data || []}
-      renderInput={(params) => <StyledTextField {...params} label={opts.label} />}
+      renderInput={(params) => <StyledTextField {...params} label={label} />}
       className={classes.filterMenu}
-      style={opts.style}
+      style={style}
       size="small"
     />
   );

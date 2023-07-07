@@ -1,20 +1,16 @@
 import { DataGrid as MuiDataGrid } from "@mui/x-data-grid";
-import { styled } from '@mui/material/styles';
+import { styled } from "@mui/material/styles";
 import { darken, lighten } from "@mui/material/styles";
 
 import { colorTint } from "../../lib/utils";
 
-const PREFIX = 'index';
+const PREFIX = "index";
 
 const classes = {
-  root: `${PREFIX}-root`
+  root: `${PREFIX}-root`,
 };
 
-const Root = styled('div')((
-  {
-    theme
-  }
-) => {
+const Root = styled("div")(({ theme }) => {
   const statusColors = {
     pass: colorTint(theme.palette.success.main, 20),
     fail: colorTint(theme.palette.error.main, 15),
@@ -113,7 +109,6 @@ function getThemePaletteMode(palette) {
 }
 
 export default function DataGrid(props) {
-
   return (
     <Root style={{ width: "100%" }}>
       <div style={{ display: "flex", height: "100%" }}>
@@ -122,8 +117,23 @@ export default function DataGrid(props) {
             autoHeight
             className={classes.root}
             density="compact"
-            rowsPerPageOptions={[25, 50, 100]}
-            {...props}
+            initialState={props.initialState}
+            pageSizeOptions={[25, 50, 100]}
+            paginationMode={props.paginationMode}
+            paginationModel={{
+              page: Number(props.page) || 0,
+              pageSize: Number(props.pageSize) || 25,
+            }}
+            onPaginationModelChange={props.onPaginationModelChange}
+            loading={props.loading}
+            rows={props.rows}
+            rowCount={props.rowCount || 9999}
+            getRowId={props.getRowId}
+            getRowClassName={props.getRowClassName}
+            filterMode={props.filterMode}
+            filterModel={props.filterModel}
+            onFilterModelChange={props.onFilterModelChange}
+            columns={props.columns}
           />
         </div>
       </div>

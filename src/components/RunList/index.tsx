@@ -1,15 +1,28 @@
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
+import type {
+  DecodedValueMap,
+  QueryParamConfigMap,
+  SetQuery,
+} from "use-query-params";
+import type {
+  GridFilterModel,
+  GridRowClassNameParams,
+  GridValueFormatterParams,
+  GridValueGetterParams,
+  GridRenderCellParams,
+  GridColDef,
+} from "@mui/x-data-grid";
 
 import { useRuns } from "../../lib/paddles";
 import { formatDate, formatDuration } from "../../lib/utils";
 import DataGrid from "../DataGrid";
 import IconLink from "../../components/IconLink";
 
-function resultsGetter(params) {
+function resultsGetter(params: GridValueGetterParams) {
   return params.row.results[params.field];
 }
 
-const _columns = [
+const columns: GridColDef[] = [
   {
     field: "user",
   },
@@ -17,7 +30,7 @@ const _columns = [
     field: "name",
     headerName: "link",
     width: 60,
-    renderCell: (params) => {
+    renderCell: (params: GridRenderCellParams) => {
       return (
         <IconLink to={`/runs/${params.value}`}>
           <OpenInNewIcon />
@@ -28,32 +41,32 @@ const _columns = [
   {
     field: "scheduled",
     type: "date",
-    valueFormatter: (row) => formatDate(row.value),
+    valueFormatter: (row: GridValueFormatterParams) => formatDate(row.value),
     width: 125,
   },
   {
     field: "started",
     type: "date",
-    valueFormatter: (row) => formatDate(row.value),
+    valueFormatter: (row: GridValueFormatterParams) => formatDate(row.value),
     width: 125,
   },
   {
     headerName: "updated",
     field: "posted",
     type: "date",
-    valueFormatter: (row) => formatDate(row.value),
+    valueFormatter: (row: GridValueFormatterParams) => formatDate(row.value),
     width: 125,
   },
   {
     headerName: "runtime",
     field: "",
-    valueGetter: (params) => {
+    valueGetter: (params: GridValueGetterParams) => {
       const start = Date.parse(params.row.started);
       const end = Date.parse(params.row.posted);
       if (!end || !start) return null;
       return Math.round((start - end) / 1000);
     },
-    valueFormatter: (row) => formatDuration(row.value),
+    valueFormatter: (row: GridValueFormatterParams) => formatDuration(row.value),
     width: 70,
   },
   {
@@ -98,27 +111,18 @@ const _columns = [
   },
 ];
 
-export default function RunList(props) {
-  const state = { ...(props.state || {}) };
-  const dispatch = props.dispatch;
-  if (!state.page) state.page = 0;
-  if (!state.pageSize) state.pageSize = 25;
-  const query = useRuns(state);
+interface RunListProps {
+  params: DecodedValueMap<QueryParamConfigMap>;
+  setter: SetQuery<QueryParamConfigMap>;
+}
+
+export default function RunList({ params, setter }:RunListProps) {
+  const paddlesParams = {...params};
+  delete paddlesParams.user;
+  const query = useRuns(paddlesParams);
   if (query.isError) return null;
-  const onPageSizeChange = ({ pageSize }) => {
-    if (typeof dispatch !== "function") return;
-    dispatch({
-      type: "set",
-      payload: { key: "pageSize", value: pageSize },
-    });
-  };
-  const onPageChange = ({ page }) => {
-    if (typeof dispatch !== "function") return;
-    dispatch({ type: "set", payload: { key: "page", value: page } });
-  };
-  const paginationMode = typeof dispatch === "function" ? "server" : "client";
-  const columns = [..._columns];
   /*  If we want to automatically size the branch column:
+  const columns = [..._columns];
   if (query.isSuccess) {
     const branchLength = Math.max(
       ...query.data.map((item) => item.branch.length)
@@ -130,6 +134,25 @@ export default function RunList(props) {
     });
   }
   */
+  let filterModel: GridFilterModel = { items: [] };
+  if (params.user) {
+    filterModel = {
+      items: [
+        {
+          field: "user",
+          value: params.user,
+          operator: "contains",
+        },
+      ],
+    };
+  }
+  const onFilterModelChange = (model: GridFilterModel) => {
+    const params: QueryParamConfigMap = {};
+    model.items.forEach((item) => {
+      params[item.field] = item.value || null;
+    });
+    setter(params);
+  };
   return (
     <DataGrid
       columns={columns}
@@ -145,19 +168,17 @@ export default function RunList(props) {
           ],
         },
       }}
-      getRowId={(row) => row.name}
-      getRowClassName={(params) => {
+      filterMode="client"
+      filterModel={filterModel}
+      onFilterModelChange={onFilterModelChange}
+      paginationMode="server"
+      pageSize={params.pageSize}
+      page={params.page}
+      onPaginationModelChange={setter}
+      getRowClassName={(params: GridRowClassNameParams) => {
         const status = params.row.status.split(" ").pop();
         return `status-${status}`;
       }}
-      paginationMode={paginationMode}
-      rowCount={paginationMode === "server" ? 9999 : undefined}
-      pageSize={state.pageSize}
-      onPageSizeChange={
-        paginationMode === "server" ? onPageSizeChange : undefined
-      }
-      page={paginationMode === "server" ? state.page : undefined}
-      onPageChange={onPageChange}
     />
   );
 }
