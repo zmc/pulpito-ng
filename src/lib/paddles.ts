@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery } from "@tanstack/react-query";
 
 import type { GetURLParams, Run, Job } from "./paddles.d";
 
@@ -23,10 +23,10 @@ function getURL(endpoint: string, params?: GetURLParams) {
     }
     switch (key) {
       case "page":
-        params_[key] = (value as number) + 1;
+        params_[key] = Number(value) + 1;
         break;
       case "pageSize":
-        params_.count = value as number;
+        params_.count = Number(value);
         delete params_[key];
         break;
       case "queued":
