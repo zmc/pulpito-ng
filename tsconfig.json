@@ -22,6 +22,7 @@
     "jsxImportSource": "@emotion/react",
     "downlevelIteration": true
   },
+  "types": ["src/vite-env-override.d.ts", "vite/client"],
   "include": [
     "src"
   ]

@@ -48,7 +48,7 @@ const columns: GridColDef[] = [
           ) : null}
           {params.value.sentry ? (
             <IconLink to={params.value.sentry}>
-              <img src={sentryIcon} alt="Sentry icon" />
+              <img src={`${sentryIcon}`} alt="Sentry icon" />
             </IconLink>
           ) : null}
         </div>
