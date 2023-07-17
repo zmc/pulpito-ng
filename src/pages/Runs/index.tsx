@@ -1,4 +1,4 @@
-import { useCallback, useReducer, ChangeEvent } from "react";
+import { useCallback, ChangeEvent } from "react";
 import { useQueryParams, StringParam, NumberParam } from "use-query-params";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
@@ -27,19 +27,10 @@ export default function Runs() {
     user: StringParam,
   });
   const { branch, date, machine_type, sha1, status, suite } = params;
-  const [sha1Valid, sha1Dispatch] = useReducer(
-    (_: any, value: boolean) => value,
-    true
-  );
-  const onSha1Change = useCallback((evt: ChangeEvent) => {
+  const onSha1Change = (evt: ChangeEvent) => {
     const newValue = (evt.target as HTMLTextAreaElement).value;
-    if (newValue.length === 0 || newValue.length === 40) {
-      setParams({ sha1: newValue || null });
-      sha1Dispatch(true);
-    } else {
-      sha1Dispatch(false);
-    }
-  }, []);
+    setParams({sha1: newValue || null});
+  };
   const onDateChange = useCallback((evt: ChangeEvent) => {
     const newValue = (evt.target as HTMLTextAreaElement).value;
     setParams({ date: newValue || null });
@@ -64,7 +55,6 @@ export default function Runs() {
             size="small"
             margin="dense"
             style={{ margin: "10px" }}
-            error={!sha1Valid}
             onChange={onSha1Change}
             value={sha1 || ""}
           />

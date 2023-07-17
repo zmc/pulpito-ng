@@ -4,6 +4,7 @@ import type {
   QueryParamConfigMap,
   SetQuery,
 } from "use-query-params";
+import { useDebounce } from "usehooks-ts";
 import type {
   GridFilterModel,
   GridRowClassNameParams,
@@ -119,7 +120,8 @@ interface RunListProps {
 export default function RunList({ params, setter }:RunListProps) {
   const paddlesParams = {...params};
   delete paddlesParams.user;
-  const query = useRuns(paddlesParams);
+  const debouncedParams = useDebounce(params, 500);
+  const query = useRuns(debouncedParams);
   if (query.isError) return null;
   /*  If we want to automatically size the branch column:
   const columns = [..._columns];
