@@ -44,17 +44,17 @@ export default function Runs() {
         Runs
       </Typography>
       <div style={{ height: "auto", display: "flex" }}>
-        <div>
-          <Typography style={{ padding: "10px", marginTop: "16px" }}>
-            Filter&nbsp;by:
-          </Typography>
-        </div>
         <div style={{ display: "flex", flexWrap: "wrap" }}>
+          <div>
+            <Typography style={{ padding: "10px" }}>
+              Filter&nbsp;by:
+            </Typography>
+          </div>
           <TextField
             label="SHA1"
             size="small"
             margin="dense"
-            style={{ margin: "10px" }}
+            style={{ margin: "0px" }}
             onChange={onSha1Change}
             value={sha1 || ""}
           />
@@ -62,7 +62,7 @@ export default function Runs() {
             type="date"
             size="small"
             margin="dense"
-            style={{ margin: "10px"}}
+            style={{ margin: "0px" }}
             onChange={onDateChange}
             value={date || ""}
           />
