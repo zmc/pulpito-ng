@@ -125,7 +125,7 @@ export default function Runs() {
             type="date"
             size="small"
             margin="dense"
-            style={{ margin: "10px", paddingTop: "16px" }}
+            style={{ margin: "10px"}}
             onChange={onDateChange}
             defaultValue={state.date}
           />
