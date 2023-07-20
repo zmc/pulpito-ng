@@ -15,7 +15,7 @@ import "./App.css";
 type AppProps = {
   darkMode: boolean;
   toggleDarkMode: Function;
-}
+};
 
 function App(props: AppProps) {
   const [drawerOpen, setDrawerOpen] = useState(false);

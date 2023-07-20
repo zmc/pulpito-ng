@@ -4,7 +4,7 @@ import { Helmet } from "react-helmet";
 import RunList from "../../components/RunList";
 
 export default function Queue() {
-  const state = { queued: true };
+  const params = { queued: true };
   return (
     <div>
       <Helmet>
@@ -13,7 +13,7 @@ export default function Queue() {
       <Typography variant="h5" style={{ margin: "20px" }}>
         Queue
       </Typography>
-      <RunList state={state} />
+      <RunList params={params} />
     </div>
   );
 }

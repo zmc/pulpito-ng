@@ -1,13 +1,18 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import { BrowserRouter as Router } from "react-router-dom";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryParamProvider } from "use-query-params";
+import { ReactRouter6Adapter } from "use-query-params/adapters/react-router-6";
 import axios from "axios";
 import CssBaseline from "@mui/material/CssBaseline";
-import { ReactQueryDevtools } from "react-query/devtools";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { createTheme, ThemeProvider, StyledEngineProvider } from "@mui/material/styles";
-import { Theme } from '@mui/material/styles';
+import {
+  createTheme,
+  ThemeProvider,
+  StyledEngineProvider,
+} from "@mui/material/styles";
 
 import "./index.css";
 import App from "./App";
@@ -15,34 +20,13 @@ import reportWebVitals from "./reportWebVitals";
 
 import type { QueryKey } from "./lib/paddles.d";
 
-
-
-declare module '@mui/styles/defaultTheme' {
-  // eslint-disable-next-line @typescript-eslint/no-empty-interface
-  interface DefaultTheme extends Theme {}
-}
-
-
-
-declare module '@mui/styles/defaultTheme' {
-  // eslint-disable-next-line @typescript-eslint/no-empty-interface
-  interface DefaultTheme extends Theme {}
-}
-
-
-declare module '@mui/styles' {
-  // eslint-disable-next-line @typescript-eslint/no-empty-interface
-  interface DefaultTheme extends Theme {}
-}
-
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       keepPreviousData: true,
       refetchOnWindowFocus: false,
-      notifyOnChangeProps: "tracked",
-      staleTime: 10000 * 60 * 60,
-      cacheTime: 10000 * 60 * 60,
+      staleTime: 0,
+      cacheTime: 0,
       queryFn: async (params) => {
         const queryKey = params.queryKey as QueryKey;
         return axios.get(queryKey[1].url).then((resp) => resp.data);
@@ -54,13 +38,13 @@ const queryClient = new QueryClient({
 type DarkModeState = {
   system: boolean;
   user?: boolean;
-}
+};
 
 function useDarkMode(): [boolean, Function] {
   const systemDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
-  const [state, setState] = React.useState(
-  { system: systemDarkMode } as DarkModeState
-  );
+  const [state, setState] = React.useState({
+    system: systemDarkMode,
+  } as DarkModeState);
 
   function setDarkMode(value: boolean) {
     const newState = { ...state, user: value };
@@ -95,11 +79,13 @@ export default function Root() {
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
           <Router>
-            <CssBaseline />
-            <QueryClientProvider client={queryClient}>
-              <ReactQueryDevtools initialIsOpen={false} />
-              <App darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
-            </QueryClientProvider>
+            <QueryParamProvider adapter={ReactRouter6Adapter}>
+              <CssBaseline />
+              <QueryClientProvider client={queryClient}>
+                <ReactQueryDevtools initialIsOpen={false} />
+                <App darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
+              </QueryClientProvider>
+            </QueryParamProvider>
           </Router>
         </ThemeProvider>
       </StyledEngineProvider>
@@ -107,7 +93,9 @@ export default function Root() {
   );
 }
 
-ReactDOM.render(<Root />, document.getElementById("root"));
+const container = document.getElementById("root");
+const root = createRoot(container!);
+root.render(<Root />);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

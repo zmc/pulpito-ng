@@ -1,25 +1,44 @@
 import DescriptionIcon from "@mui/icons-material/Description";
+import type {
+  GridCellParams,
+  GridFilterModel,
+  GridRowClassNameParams,
+  GridValueFormatterParams,
+  GridValueGetterParams,
+  GridRenderCellParams,
+  GridColDef,
+} from "@mui/x-data-grid";
+import type {
+  DecodedValueMap,
+  QueryParamConfigMap,
+  SetQuery,
+} from "use-query-params";
+import type { UseQueryResult } from "@tanstack/react-query";
 
 import { formatDate, formatDuration } from "../../lib/utils";
 import DataGrid from "../../components/DataGrid";
 import IconLink from "../../components/IconLink";
+import type { Run } from "../../lib/paddles.d";
 
-const columns = [
+import sentryIcon from "./assets/sentry.svg";
+
+
+const columns: GridColDef[] = [
   {
     field: "status",
     width: 85,
-    cellClassName: (params) => `status-${params.value}`,
+    cellClassName: (params: GridCellParams) => `status-${params.value}`,
   },
   {
     field: "links",
     width: 75,
-    valueGetter: (params) => {
+    valueGetter: (params: GridValueGetterParams) => {
       return {
         log: params.row.log_href,
         sentry: params.row.sentry_event,
       };
     },
-    renderCell: (params) => {
+    renderCell: (params: GridRenderCellParams) => {
       return (
         <div>
           {params.value.log ? (
@@ -29,7 +48,7 @@ const columns = [
           ) : null}
           {params.value.sentry ? (
             <IconLink to={params.value.sentry}>
-                <img src={require('../JobList/assets/sentry.svg').default} alt='mySvgImage' />
+              <img src={`${sentryIcon}`} alt="Sentry icon" />
             </IconLink>
           ) : null}
         </div>
@@ -39,7 +58,7 @@ const columns = [
   {
     field: "job_id",
     headerName: "job ID",
-    renderCell: (params) => {
+    renderCell: (params: GridRenderCellParams) => {
       return (
         <IconLink to={`/runs/${params.row.name}/jobs/${params.value}`}>
           {params.value}
@@ -51,45 +70,48 @@ const columns = [
   {
     field: "posted",
     type: "date",
-    valueFormatter: (row) => formatDate(row.value),
+    valueFormatter: (row: GridValueFormatterParams) => formatDate(row.value),
     width: 125,
   },
   {
     field: "started",
     type: "date",
-    valueFormatter: (row) => formatDate(row.value),
+    valueFormatter: (row: GridValueFormatterParams) => formatDate(row.value),
     width: 125,
   },
   {
     field: "updated",
     type: "date",
-    valueFormatter: (row) => formatDate(row.value),
+    valueFormatter: (row: GridValueFormatterParams) => formatDate(row.value),
     width: 125,
   },
   {
     field: "runtime",
-    valueGetter: (params) => {
+    valueGetter: (params: GridValueGetterParams) => {
       const start = Date.parse(params.row.started);
       const end = Date.parse(params.row.updated);
       if (!end || !start) return null;
       return Math.round((end - start) / 1000);
     },
-    valueFormatter: (row) => formatDuration(row.value),
+    valueFormatter: (row: GridValueFormatterParams) =>
+      formatDuration(row.value),
   },
   {
     field: "duration",
-    valueFormatter: (row) => formatDuration(row.value),
+    valueFormatter: (row: GridValueFormatterParams) =>
+      formatDuration(row.value),
   },
   {
     field: "waiting",
     headerName: "in waiting",
-    valueGetter: (params) => {
+    valueGetter: (params: GridValueGetterParams) => {
       const start = Date.parse(params.row.started);
       const end = Date.parse(params.row.updated);
       if (!end || !start || !params.row.duration) return null;
       return Math.round((end - start) / 1000 - params.row.duration);
     },
-    valueFormatter: (row) => formatDuration(row.value),
+    valueFormatter: (row: GridValueFormatterParams) =>
+      formatDuration(row.value),
   },
   {
     field: "machine_type",
@@ -108,36 +130,45 @@ const columns = [
   {
     field: "nodes",
     headerName: "nodes",
-    valueGetter: (params) => {
+    valueGetter: (params: GridValueGetterParams) => {
       return Object.keys(params.row.targets || {}).length || null;
     },
     width: 85,
   },
 ];
 
-export default function JobList({ query, state }) {
+interface JobListProps {
+  query: UseQueryResult<Run>;
+  params: DecodedValueMap<QueryParamConfigMap>;
+  setter: SetQuery<QueryParamConfigMap>;
+}
+
+export default function JobList({ query, params, setter }: JobListProps) {
   if (query.isError) return null;
-  let filterModel = { items: [] };
-  if (Object.keys(state || {}).length) {
+  let filterModel: GridFilterModel = { items: [] };
+  if (params.status) {
     filterModel = {
       items: [
         {
-          field: Object.keys(state)[0],
-          value: Object.values(state)[0],
-          operator: "equals",
+          field: "status",
+          value: params.status,
+          operator: "contains",
         },
       ],
     };
   }
+  const onFilterModelChange = (model: GridFilterModel) => {
+    setter({ status: model.items[0].value || null });
+  };
   return (
     <DataGrid
       columns={columns}
       rows={query.data?.jobs || []}
-      pageSize={25}
+      rowCount={query.data?.jobs.length || 999}
       loading={query.isLoading || query.isFetching}
       initialState={{
         sorting: {
-          sortModel:[
+          sortModel: [
             {
               field: "job_id",
               sort: "asc",
@@ -145,9 +176,15 @@ export default function JobList({ query, state }) {
           ],
         },
       }}
+      filterMode="client"
       filterModel={filterModel}
-      getRowId={(row) => row.job_id}
-      getRowClassName={(params) => {
+      onFilterModelChange={onFilterModelChange}
+      paginationMode="client"
+      onPaginationModelChange={setter}
+      pageSize={params.pageSize}
+      page={params.page}
+      setter={setter}
+      getRowClassName={(params: GridRowClassNameParams) => {
         return `status-${params.row.status}`;
       }}
     />

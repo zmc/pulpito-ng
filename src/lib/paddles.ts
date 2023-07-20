@@ -1,9 +1,10 @@
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
+import type { UseQueryResult } from "@tanstack/react-query";
 
 import type { GetURLParams, Run, Job } from "./paddles.d";
 
 const PADDLES_SERVER =
-  process.env.REACT_APP_PADDLES_SERVER ||
+  import.meta.env.REACT_APP_PADDLES_SERVER ||
   "https://paddles.front.sepia.ceph.com";
 
 function getURL(endpoint: string, params?: GetURLParams) {
@@ -23,10 +24,10 @@ function getURL(endpoint: string, params?: GetURLParams) {
     }
     switch (key) {
       case "page":
-        params_[key] = (value as number) + 1;
+        params_[key] = Number(value) + 1;
         break;
       case "pageSize":
-        params_.count = value as number;
+        params_.count = Number(value);
         delete params_[key];
         break;
       case "queued":
@@ -44,7 +45,7 @@ function getURL(endpoint: string, params?: GetURLParams) {
   return new URL(uri, PADDLES_SERVER).href;
 }
 
-function useRuns(params: GetURLParams) {
+function useRuns(params: GetURLParams): UseQueryResult<Run[]> {
   const params_ = { ...params };
   if (params_.pageSize) {
     params_.count = params.pageSize;
@@ -60,15 +61,22 @@ function useRuns(params: GetURLParams) {
   return query;
 }
 
-function useRun(name: string) {
+function useRun(name: string): UseQueryResult<Run> {
   const url = getURL(`/runs/${name}/`);
-  const query = useQuery<Object, Error, Job>(["run", { url }], {});
+  const query = useQuery<Run, Error>(["run", { url }], {
+    select: (data: Run) => {
+      data.jobs.forEach((item) => {
+        item.id = item.job_id;
+      });
+      return data;
+    },
+  });
   return query;
 }
 
-function useJob(name: string, job_id: number) {
+function useJob(name: string, job_id: number): UseQueryResult<Job> {
   const url = getURL(`/runs/${name}/jobs/${job_id}/`);
-  const query = useQuery(["job", { url }], {});
+  const query = useQuery<Job, Error>(["job", { url }], {});
   return query;
 }
 

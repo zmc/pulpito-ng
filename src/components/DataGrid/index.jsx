@@ -1,14 +1,16 @@
 import { DataGrid as MuiDataGrid } from "@mui/x-data-grid";
+import { styled } from "@mui/material/styles";
 import { darken, lighten } from "@mui/material/styles";
-import { makeStyles } from "@mui/styles";
 
 import { colorTint } from "../../lib/utils";
 
-function getThemePaletteMode(palette) {
-  return palette.mode;
-}
+const PREFIX = "index";
 
-const useStyles = makeStyles((theme) => {
+const classes = {
+  root: `${PREFIX}-root`,
+};
+
+const Root = styled("div")(({ theme }) => {
   const statusColors = {
     pass: colorTint(theme.palette.success.main, 20),
     fail: colorTint(theme.palette.error.main, 15),
@@ -32,7 +34,7 @@ const useStyles = makeStyles((theme) => {
     return newColor + " !important";
   };
   return {
-    root: {
+    [`& .${classes.root}`]: {
       fontSize: 12,
       "& .MuiDataGrid-columnHeaderTitle": {
         overflow: "visible",
@@ -102,21 +104,39 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
+function getThemePaletteMode(palette) {
+  return palette.mode;
+}
+
 export default function DataGrid(props) {
-  const classes = useStyles();
   return (
-    <div style={{ width: "100%" }}>
+    <Root style={{ width: "100%" }}>
       <div style={{ display: "flex", height: "100%" }}>
         <div style={{ flexGrow: 1 }}>
           <MuiDataGrid
             autoHeight
             className={classes.root}
             density="compact"
-            rowsPerPageOptions={[25, 50, 100]}
-            {...props}
+            initialState={props.initialState}
+            pageSizeOptions={[25, 50, 100]}
+            paginationMode={props.paginationMode}
+            paginationModel={{
+              page: Number(props.page) || 0,
+              pageSize: Number(props.pageSize) || 25,
+            }}
+            onPaginationModelChange={props.onPaginationModelChange}
+            loading={props.loading}
+            rows={props.rows}
+            rowCount={props.rowCount || 9999}
+            getRowId={props.getRowId}
+            getRowClassName={props.getRowClassName}
+            filterMode={props.filterMode}
+            filterModel={props.filterModel}
+            onFilterModelChange={props.onFilterModelChange}
+            columns={props.columns}
           />
         </div>
       </div>
-    </div>
+    </Root>
   );
 }
