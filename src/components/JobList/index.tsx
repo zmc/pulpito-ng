@@ -20,6 +20,7 @@ import { formatDate, formatDuration } from "../../lib/utils";
 import DataGrid from "../../components/DataGrid";
 import IconLink from "../../components/IconLink";
 import type { Run, NodeJobs } from "../../lib/paddles.d";
+import { dirName } from "../../lib/utils";
 
 import sentryIcon from "./assets/sentry.svg";
 
@@ -50,7 +51,7 @@ const columns: GridColDef[] = [
     width: 75,
     valueGetter: (params: GridValueGetterParams) => {
       return {
-        log: params.row.log_href,
+        log: dirName(params.row.log_href),
         sentry: params.row.sentry_event,
       };
     },
