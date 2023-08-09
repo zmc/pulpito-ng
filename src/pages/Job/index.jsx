@@ -93,9 +93,16 @@ function JobHeader({ query }) {
       <Grid item xs={4}>
         <Typography>
           Nodes:&nbsp;
-          {Object.keys(query.data.targets || []).map((item) => {
-            return <Link to={`/nodes/${item}`}>{item.split(".")[0]}</Link>;
-          })}
+          {Object.keys(query.data.targets || []).map((item) => (
+            <span key={item}>
+              <Link
+                to={`/nodes/${item}`}
+              >
+                {item.split(".")[0]}
+              </Link>
+              &nbsp;
+            </span>
+          ))}
         </Typography>
         <Typography>
           OS: {query.data.os_type} {query.data.os_version}
