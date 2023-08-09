@@ -1,11 +1,11 @@
+import { PropsWithChildren } from 'react'
 import { useQueryParams, StringParam, NumberParam } from "use-query-params";
-import { styled, useTheme } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 import { useParams } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import { format } from "date-fns";
-import SourceBranch from "mdi-material-ui/SourceBranch";
 import { Helmet } from "react-helmet";
 
 import type { Run, RunParams } from "../../lib/paddles.d";
@@ -28,8 +28,17 @@ const Root = styled("div")(() => ({
   },
 }));
 
+type FilterLinkProps = {
+  to: string
+}
+
+const FilterLink = (props: PropsWithChildren<FilterLinkProps>) => (
+  <Link sx={{mx: 0.33}} to={props.to}>
+    {props.children}
+  </Link>
+);
+
 export default function Run() {
-  const theme = useTheme();
   const [params, setParams] = useQueryParams({
     status: StringParam,
     page: NumberParam,
@@ -55,20 +64,16 @@ export default function Run() {
         {name}
       </Typography>
       <div style={{ margin: "20px 0px" }}>
-        <Typography>See similar runs:</Typography>
-        <Link to={`/runs/?suite=${suite}&branch=${branch}`}>
-          <Typography>
-            suite {suite} and branch {branch}
-          </Typography>
-        </Link>
-        <Link to={`/runs/?branch=${branch}`}>
-          <Typography>
-            <SourceBranch style={{ color: theme.palette.text.primary }} />
-          </Typography>
-        </Link>
-        <Link to={`/runs/?date=${date}`}>
-          <Typography>scheduled on {date}</Typography>
-        </Link>
+        See runs with the same:
+        <FilterLink to={`/runs/?branch=${branch}`}>
+            branch
+        </FilterLink>
+        <FilterLink to={`/runs/?suite=${suite}&branch=${branch}`}>
+            suite and branch
+        </FilterLink>
+        <FilterLink to={`/runs/?date=${date}`}>
+          date
+        </FilterLink>
       </div>
       <ButtonGroup style={{ display: "flex", justifyContent: "center" }}>
         <Button
