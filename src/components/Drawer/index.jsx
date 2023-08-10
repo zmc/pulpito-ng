@@ -4,6 +4,7 @@ import { useTheme } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import Divider from '@mui/material/Divider';
 
 const PREFIX = 'index';
 
@@ -76,6 +77,17 @@ export default function Drawer(props) {
       <RouterLink to="/runs" className={classes.drawerLink}>
         Runs
       </RouterLink>
+      <Divider />
+      <RouterLink to="/nodes" className={classes.drawerLink}>
+        Nodes
+      </RouterLink>
+      <RouterLink to="/stats/nodes/lock" className={classes.drawerLink}>
+        Node Locks Stats
+      </RouterLink>
+      <RouterLink to="/stats/nodes/jobs" className={classes.drawerLink}>
+        Node Jobs Stats
+      </RouterLink>
+      <Divider />
     </StyledSwipeableDrawer>
   );
 }

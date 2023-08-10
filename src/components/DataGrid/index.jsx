@@ -11,6 +11,11 @@ const classes = {
 };
 
 const Root = styled("div")(({ theme }) => {
+  const nodeStatusColors = {
+    available: colorTint(theme.palette.success.main, 20),
+    down: colorTint(theme.palette.error.main, 15),
+    locked: colorTint(theme.palette.warning.main, 20),
+  };
   const statusColors = {
     pass: colorTint(theme.palette.success.main, 20),
     fail: colorTint(theme.palette.error.main, 15),
@@ -97,6 +102,36 @@ const Root = styled("div")(({ theme }) => {
           },
           "&:hover": {
             backgroundColor: getHoverColor(statusColors.waiting),
+          },
+        },
+        "&.node-down": {
+          backgroundColor: nodeStatusColors.down,
+          color: "black",
+          "&.Mui-selected": {
+            backgroundColor: getSelectedColor(nodeStatusColors.down),
+          },
+          "&:hover": {
+            backgroundColor: getHoverColor(nodeStatusColors.down),
+          },
+        },
+        "&.node-locked": {
+          backgroundColor: nodeStatusColors.locked,
+          color: "black",
+          "&.Mui-selected": {
+            backgroundColor: getSelectedColor(nodeStatusColors.locked),
+          },
+          "&:hover": {
+            backgroundColor: getHoverColor(nodeStatusColors.locked),
+          },
+        },
+        "&.node-available": {
+          backgroundColor: nodeStatusColors.available,
+          color: "black",
+          "&.Mui-selected": {
+            backgroundColor: getSelectedColor(nodeStatusColors.available),
+          },
+          "&:hover": {
+            backgroundColor: getHoverColor(nodeStatusColors.available),
           },
         },
       },

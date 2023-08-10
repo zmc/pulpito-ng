@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import type { UseQueryResult } from "@tanstack/react-query";
 
-import type { GetURLParams, Run, Job } from "./paddles.d";
+import type { GetURLParams, Run, Job, Node } from "./paddles.d";
 
 const PADDLES_SERVER =
   import.meta.env.VITE_PADDLES_SERVER || "https://paddles.front.sepia.ceph.com";
@@ -94,6 +94,22 @@ function useMachineTypes() {
   return useQuery(["machine_types", { url }]);
 }
 
+function useNodes(params: GetURLParams): UseQueryResult<Node[]> {
+  const params_ = JSON.parse(JSON.stringify(params || {}));
+
+  const queryString = new URLSearchParams(params_).toString();
+  let uri = "nodes/" + (queryString? `?${queryString}` : '');
+
+  const url = new URL(uri, PADDLES_SERVER).href
+  const query = useQuery(["nodes", { url }], {
+    select: (data: Node[]) =>
+      data.map((item) => {
+        return { ...item, id: item.name };
+      }),
+  });
+  return query;
+}
+
 function useStatuses() {
   return {
     data: [
@@ -115,4 +131,5 @@ export {
   useJob,
   useSuites,
   useStatuses,
+  useNodes,
 };

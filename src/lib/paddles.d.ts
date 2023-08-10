@@ -29,3 +29,16 @@ export type Run = {
   jobs: Job[];
   scheduled: string;
 };
+
+export type Node = {
+  name: string;
+  description: string | null;
+  up: boolean;
+  locked: boolean;
+  os_type: string;
+  os_version: string;
+  arch: string | null;
+  locked_since: string | null;
+  locked_by: string | null;
+  machine_type: string;
+};
