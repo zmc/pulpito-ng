@@ -169,6 +169,7 @@ export default function DataGrid(props) {
             filterModel={props.filterModel}
             onFilterModelChange={props.onFilterModelChange}
             columns={props.columns}
+            hideFooter={props.hideFooter}
           />
         </div>
       </div>

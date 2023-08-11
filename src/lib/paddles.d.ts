@@ -42,3 +42,7 @@ export type Node = {
   locked_by: string | null;
   machine_type: string;
 };
+
+export type NodeJobs = {
+  jobs?: Job[];
+}

@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import type { UseQueryResult } from "@tanstack/react-query";
 
-import type { GetURLParams, Run, Job, Node } from "./paddles.d";
+import type { GetURLParams, Run, Job, Node, NodeJobs } from "./paddles.d";
 
 const PADDLES_SERVER =
   import.meta.env.VITE_PADDLES_SERVER || "https://paddles.front.sepia.ceph.com";
@@ -94,6 +94,28 @@ function useMachineTypes() {
   return useQuery(["machine_types", { url }]);
 }
 
+function useNodeJobs(name: string, params: GetURLParams): UseQueryResult<NodeJobs> {
+  // 'page' and 'count' are mandatory query params for this paddles endpoint
+  params = { "page": params?.page || 0, "pageSize": params?.pageSize || 25 } 
+  const url = getURL(`/nodes/${name}/jobs`, params);
+  const query = useQuery(["nodes", { url }], {
+    select: (data: Job[]) => {
+      data.forEach((item) => {
+        item.id = item.job_id;
+      });
+      const resp: NodeJobs = { 'jobs': data }
+      return resp;
+    },
+  });
+  return query;
+}
+
+function useNode(name: string): UseQueryResult<Node> {
+  const url = getURL(`/nodes/${name}/`);
+  const query = useQuery<Node, Error>(["node", { url }]);
+  return query;
+}
+
 function useNodes(params: GetURLParams): UseQueryResult<Node[]> {
   const params_ = JSON.parse(JSON.stringify(params || {}));
 
@@ -131,5 +153,7 @@ export {
   useJob,
   useSuites,
   useStatuses,
+  useNode,
+  useNodeJobs,
   useNodes,
 };

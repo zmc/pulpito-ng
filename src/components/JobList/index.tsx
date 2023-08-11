@@ -18,7 +18,7 @@ import type { UseQueryResult } from "@tanstack/react-query";
 import { formatDate, formatDuration } from "../../lib/utils";
 import DataGrid from "../../components/DataGrid";
 import IconLink from "../../components/IconLink";
-import type { Run } from "../../lib/paddles.d";
+import type { Run, NodeJobs } from "../../lib/paddles.d";
 
 import sentryIcon from "./assets/sentry.svg";
 
@@ -138,7 +138,7 @@ const columns: GridColDef[] = [
 ];
 
 interface JobListProps {
-  query: UseQueryResult<Run>;
+  query: UseQueryResult<Run> | UseQueryResult<NodeJobs>;
   params: DecodedValueMap<QueryParamConfigMap>;
   setter: SetQuery<QueryParamConfigMap>;
 }
@@ -164,7 +164,7 @@ export default function JobList({ query, params, setter }: JobListProps) {
     <DataGrid
       columns={columns}
       rows={query.data?.jobs || []}
-      rowCount={query.data?.jobs.length || 999}
+      rowCount={query.data?.jobs?.length || 999}
       loading={query.isLoading || query.isFetching}
       initialState={{
         sorting: {

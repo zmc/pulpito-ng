@@ -10,6 +10,7 @@ import Run from "./pages/Run";
 import Job from "./pages/Job";
 import Queue from "./pages/Queue";
 import Nodes from "./pages/Nodes";
+import Node from "./pages/Node";
 
 import "./App.css";
 
@@ -37,6 +38,7 @@ function App(props: AppProps) {
         <Routes>
           <Route path="/" element={<Runs />} />
           <Route path="/nodes" element={<Nodes />} />
+          <Route path="/nodes/:name" element={<Node />} />
           <Route path="/runs" element={<Runs />} />
           <Route path="/runs/:name" element={<Run />} />
           <Route path="/runs/:name/jobs/:job_id" element={<Job />} />
