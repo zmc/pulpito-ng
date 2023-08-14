@@ -13,6 +13,10 @@ type RunParams = {
   name: string;
 };
 
+type NodeParams = {
+  name: string;
+};
+
 export type Job = {
   id?: string;
   job_id: number;

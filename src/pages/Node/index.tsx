@@ -6,7 +6,7 @@ import { Helmet } from "react-helmet";
 import DataGrid from "../../components/DataGrid";
 import JobList from "../../components/JobList";
 import { nodeRowClass, columns as nodeColumns} from "../../components/NodeList";
-import type { RunParams } from "../../lib/paddles.d";
+import type { NodeParams } from "../../lib/paddles.d";
 
 import { useNode, useNodeJobs } from "../../lib/paddles";
 
@@ -15,7 +15,7 @@ export default function Node() {
     page: NumberParam,
     pageSize: NumberParam,
   });
-  const { name } = useParams<RunParams>();
+  const { name } = useParams<NodeParams>();
   const detailsQuery = useNode(name === undefined ? "" : name);
   const jobsQuery = useNodeJobs(name === undefined ? "" : name, params);
 
