@@ -46,3 +46,10 @@ export type Node = {
 export type NodeJobs = {
   jobs?: Job[];
 }
+
+export type StatsLocksResponse = {
+  id: string;
+  owner: string;
+  machine_type: string;
+  count: number;
+}
