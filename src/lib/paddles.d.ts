@@ -53,3 +53,14 @@ export type StatsLocksResponse = {
   machine_type: string;
   count: number;
 }
+
+export interface StatsJobsResponse {
+  id: string;
+  name: string;
+  pass?: number;
+  fail?: number;
+  dead?: number;
+  unkown?: number;
+  running?: number;
+  total: number;
+}

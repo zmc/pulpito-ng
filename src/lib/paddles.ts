@@ -1,7 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import type { UseQueryResult } from "@tanstack/react-query";
 
-import type { GetURLParams, Run, Job, Node, NodeJobs, StatsLocksResponse } from "./paddles.d";
+import type { 
+  GetURLParams, 
+  Run, Job, 
+  Node, NodeJobs,
+  StatsLocksResponse,
+  StatsJobsResponse,
+} from "./paddles.d";
 
 const PADDLES_SERVER =
   import.meta.env.VITE_PADDLES_SERVER || "https://paddles.front.sepia.ceph.com";
@@ -163,6 +169,39 @@ function useStatsNodeLocks(params: GetURLParams): UseQueryResult<StatsLocksRespo
   return query;
 }
 
+function useStatsNodeJobs(params: GetURLParams): UseQueryResult<StatsJobsResponse[]> {
+  const params_ = JSON.parse(JSON.stringify(params || {}));
+  params_["since_days"] = params_["since_days"] || 14;
+
+  const queryString = new URLSearchParams(params_).toString();
+  let uri = `nodes/job_stats/?${queryString}`;
+  const url = new URL(uri, PADDLES_SERVER).href;
+
+  const query = useQuery(["statsJobs", { url }], {
+    select: (data: {[name: string]: { [status: string]: number }}) => {
+      let resp: StatsJobsResponse[] = [];
+      for (let node in data) {
+        let name = node;
+        let status_dict = data[node];
+        let respObj: StatsJobsResponse = { 
+          id: name, name, 'total': 0,
+          'pass': status_dict['pass'] || 0, 
+          'fail': status_dict['fail'] || 0, 
+          'dead': status_dict['dead'] || 0, 
+          'unkown': status_dict['unkown'] || 0, 
+          'running': status_dict['running'] || 0,  
+        };
+        for (let status in status_dict) {
+          respObj["total"] += status_dict[status] || 0;
+        }
+        resp.push(respObj)
+      }
+      return resp;
+    },
+  });
+  return query;
+}
+
 function useStatuses() {
   return {
     data: [
@@ -188,4 +227,5 @@ export {
   useNodeJobs,
   useNodes,
   useStatsNodeLocks,
+  useStatsNodeJobs,
 };
