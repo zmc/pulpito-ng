@@ -8,13 +8,19 @@ import Brightness7Icon from "@mui/icons-material/Brightness7";
 import MuiAppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import { useCookies } from "react-cookie";
+
+import { githubLogin } from "../../lib/teuthologyAPI"
+
 
 const PREFIX = 'index';
 
 const classes = {
   appBar: `${PREFIX}-appBar`,
   title: `${PREFIX}-title`,
-  toolbarIcon: `${PREFIX}-toolbarIcon`
+  toolbarIcon: `${PREFIX}-toolbarIcon`,
+  loginButton: `${PREFIX}-loginButton`,
 };
 
 const StyledMuiAppBar = styled(MuiAppBar)((
@@ -40,11 +46,43 @@ const StyledMuiAppBar = styled(MuiAppBar)((
     alignItems: "center",
     justifyContent: "flex-end",
     padding: "0 8px",
+  },
+
+  [`& .${classes.loginButton}`]: {
+    // TODO: add theme
+    marginLeft: "12px",
   }
+
 }));
 
 export default function AppBar(props) {
   const theme = useTheme();
+  const [cookies, setCookie, removeCookie] = useCookies(["pulpitosession"]);
+
+
+  const getCookieData = () => {
+     // ISO-8859-1 octal string -> char string
+    const authcookies = (cookies["pulpitosession"].replace(/\\073/g, ';'))
+
+    if (authcookies){
+      let cookie_dict = {}
+      let cookies_ = authcookies.split(";")
+      cookies_.map((cookie) => {
+        let [key, value] = cookie.split("=");
+        cookie_dict[key.trim()] = value.trim();
+      })
+      return cookie_dict
+    }
+  }
+
+  const getUsername = () => {
+    const cookieData = getCookieData();
+    return cookieData["username"];
+  }
+
+  const login = () => {
+    githubLogin();
+  }
 
   return (
     <StyledMuiAppBar position="static" className={classes.appBar}>
@@ -78,6 +116,14 @@ export default function AppBar(props) {
             Pulpito
           </RouterLink>
         </Typography>
+        <div>
+          { cookies["pulpitosession"]
+              ? <Typography variant="button" display="block" gutterBottom>
+                    Hey, {getUsername()} !
+                </Typography> 
+              : <Button variant="outlined" onClick={login} className={classes.loginButton}>Login</Button> 
+          }
+        </div>
         <IconButton onClick={props.toggleDarkMode} size="large">
           {props.darkMode ? <Brightness7Icon /> : <Brightness4Icon />}
         </IconButton>
