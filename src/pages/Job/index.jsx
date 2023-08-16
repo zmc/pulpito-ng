@@ -11,6 +11,7 @@ import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import formatDuration from "date-fns/formatDuration";
+import { isValid, parse } from "date-fns";
 import Editor from "react-simple-code-editor";
 import { highlight, languages } from "prismjs/components/prism-core";
 import "prismjs/components/prism-yaml";
@@ -43,6 +44,11 @@ function StatusIcon({ status }) {
 }
 
 function timeSince(date) {
+  const parsedDate = parse(date, "yyyy-MM-dd HH:mm:ss", new Date());
+  if (!isValid(parsedDate)) {
+    return 'N/A';
+  }
+
   let minute = 60;
   let hour   = minute * 60;
   let day    = hour   * 24;
