@@ -23,7 +23,7 @@ export const columns: GridColDef[] = [
     field: "name",
     width: 125,
     renderCell: (params: GridRenderCellParams) => {
-      return <Link href={`/nodes/${params.value}`} color="inherit">{params.value}</Link>;
+      return <Link href={`/nodes/${params.value}`} color="inherit">{params.value?.split(".")[0]}</Link>;
     },
   },
   {
