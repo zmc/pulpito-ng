@@ -10,6 +10,7 @@ import ScheduleIcon from "@mui/icons-material/Schedule";
 import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import FolderIcon from '@mui/icons-material/Folder';
 import formatDuration from "date-fns/formatDuration";
 import { isValid, parse } from "date-fns";
 import Editor from "react-simple-code-editor";
@@ -83,8 +84,9 @@ function JobHeader({ query }) {
         </Typography>
       </Grid>
       <Grid item xs={12} style={{ display: "flex" }}>
+        <FolderIcon sx={{ alignSelf: "center", margin: "5px" }} />
         <Typography variant="h5">
-          <Link to={dirName(query.data.log_href)}>Archive</Link>
+          <Link to={dirName(query.data.log_href)}>Log Archive</Link>
         </Typography>
       </Grid>
       <Grid item xs={4}>
