@@ -1,8 +1,12 @@
+import { useState } from "react";
 import { useCookies } from "react-cookie";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import Avatar from '@mui/material/Avatar';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 
-import { githubLogin } from "../../lib/teuthologyAPI";
+import { login, logout } from "../../lib/teuthologyAPI";
 
 
 const GH_USER_COOKIE = "GH_USER";
@@ -10,6 +14,14 @@ const GH_USER_COOKIE = "GH_USER";
 
 export default function Login() {
   const [cookies, setCookie, removeCookie] = useCookies([GH_USER_COOKIE]);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const getCookieData = () => {
     // ISO-8859-1 octal string -> char string
@@ -26,21 +38,34 @@ export default function Login() {
     }
   }
 
-  const getUsername = () => {
-    const cookieData = getCookieData();
-    return cookieData["username"] || "";
-  }
-
-  const login = () => {
-    githubLogin();
+  const githubLogout = () => {
+    removeCookie(GH_USER_COOKIE);
+    logout();
   }
 
   return (
     <div>
       {cookies[GH_USER_COOKIE]
-        ? <Typography variant="button" display="block" gutterBottom>
-          Hey, {getUsername()} !
-        </Typography>
+        ? <div>
+            <Avatar 
+              alt={getCookieData()["username"]} 
+              src={getCookieData()["avatar_url"]} 
+              onClick={handleClick} 
+              aria-controls={open ? 'basic-menu' : undefined} 
+              aria-expanded={open ? 'true' : undefined} 
+            />
+            <Menu
+              id="basic-menu"
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              MenuListProps={{
+                'aria-labelledby': 'basic-button',
+              }}
+            >
+              <MenuItem onClick={githubLogout}>Logout</MenuItem>
+            </Menu>
+        </div>
         : <Button variant="outlined" onClick={login}>Login</Button>
       }
     </div>
