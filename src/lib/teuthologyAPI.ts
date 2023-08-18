@@ -2,17 +2,17 @@
 const TEUTHOLOGY_API_SERVER = 
     import.meta.env.VITE_TEUTHOLOGY_API || "";
 
-function login() {
+function useLogin() {
     const url =  new URL("/login/", TEUTHOLOGY_API_SERVER).href;
-    window.location.replace(url);
+    window.location.href = url;
 }
 
-function logout() {
+function useLogout() {
     const url =  new URL("/logout/", TEUTHOLOGY_API_SERVER).href;
-    window.location.replace(url);
+    window.location.href = url;
 }
 
 export {
-    login,
-    logout,
+    useLogin,
+    useLogout,
 }

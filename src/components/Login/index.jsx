@@ -5,8 +5,9 @@ import Button from "@mui/material/Button";
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import GitHubIcon from '@mui/icons-material/GitHub';
 
-import { login, logout } from "../../lib/teuthologyAPI";
+import { useLogin, useLogout } from "../../lib/teuthologyAPI";
 
 
 const GH_USER_COOKIE = "GH_USER";
@@ -40,7 +41,7 @@ export default function Login() {
 
   const githubLogout = () => {
     removeCookie(GH_USER_COOKIE);
-    logout();
+    useLogout();
   }
 
   return (
@@ -66,7 +67,13 @@ export default function Login() {
               <MenuItem onClick={githubLogout}>Logout</MenuItem>
             </Menu>
         </div>
-        : <Button variant="outlined" onClick={login}>Login</Button>
+        : <Button 
+            variant="contained" 
+            onClick={useLogin} 
+            startIcon={<GitHubIcon fontSize="small" /> }
+          >
+            Login 
+          </Button>
       }
     </div>
   );
