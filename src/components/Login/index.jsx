@@ -7,13 +7,16 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import GitHubIcon from '@mui/icons-material/GitHub';
 
-import { useLogin, useLogout } from "../../lib/teuthologyAPI";
+import { useLogin, useLogout, useSession } from "../../lib/teuthologyAPI";
 
 
 const GH_USER_COOKIE = "GH_USER";
 
 
 export default function Login() {
+  const sessionQuery = useSession();
+  if (sessionQuery.isError) return null;
+
   const [cookies, setCookie, removeCookie] = useCookies([GH_USER_COOKIE]);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -46,7 +49,7 @@ export default function Login() {
 
   return (
     <div>
-      {cookies[GH_USER_COOKIE]
+      {sessionQuery.data?.session
         ? <div>
             <Avatar 
               alt={getCookieData()["username"]} 
