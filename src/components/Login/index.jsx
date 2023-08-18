@@ -1,23 +1,16 @@
 import { useState } from "react";
-import { useCookies } from "react-cookie";
-import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import GitHubIcon from '@mui/icons-material/GitHub';
 
-import { useLogin, useLogout, useSession } from "../../lib/teuthologyAPI";
-
-
-const GH_USER_COOKIE = "GH_USER";
+import { useLogin, useLogout, useSession, useUserData } from "../../lib/teuthologyAPI";
 
 
 export default function Login() {
   const sessionQuery = useSession();
-  if (sessionQuery.isError) return null;
-
-  const [cookies, setCookie, removeCookie] = useCookies([GH_USER_COOKIE]);
+  const userData = useUserData();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -27,33 +20,15 @@ export default function Login() {
     setAnchorEl(null);
   };
 
-  const getCookieData = () => {
-    // ISO-8859-1 octal string -> char string
-    const authcookies = (cookies[GH_USER_COOKIE].replace(/\\073/g, ';'));
-
-    if (authcookies) {
-      let cookie_dict = {};
-      let cookies_ = authcookies.split(";");
-      cookies_.map((cookie) => {
-        let [key, value] = cookie.split("=");
-        cookie_dict[key.trim()] = value.trim();
-      })
-      return cookie_dict;
-    }
-  }
-
-  const githubLogout = () => {
-    removeCookie(GH_USER_COOKIE);
-    useLogout();
-  }
+  if (sessionQuery.isError) return null;
 
   return (
     <div>
       {sessionQuery.data?.session
         ? <div>
-            <Avatar 
-              alt={getCookieData()["username"]} 
-              src={getCookieData()["avatar_url"]} 
+            <Avatar
+              alt={userData.get("username") || ""} 
+              src={userData.get("avatar_url") || ""}
               onClick={handleClick} 
               aria-controls={open ? 'basic-menu' : undefined} 
               aria-expanded={open ? 'true' : undefined} 
@@ -67,7 +42,7 @@ export default function Login() {
                 'aria-labelledby': 'basic-button',
               }}
             >
-              <MenuItem onClick={githubLogout}>Logout</MenuItem>
+              <MenuItem onClick={useLogout}>Logout</MenuItem>
             </Menu>
         </div>
         : <Button 
