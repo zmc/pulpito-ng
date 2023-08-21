@@ -6,12 +6,16 @@ import FilterMenu from "../../components/FilterMenu";
 import NodeList from "../../components/NodeList";
 
 import { useMachineTypes } from "../../lib/paddles";
+import { useNodes } from "../../lib/paddles";
 
 export default function Nodes() {
   const [params, setParams] = useQueryParams({
     machine_type: StringParam,
   });
   const { machine_type } = params;
+  const query = useNodes();
+  if (query.isError) return null;
+
   
   return (
     <div>
@@ -37,7 +41,7 @@ export default function Nodes() {
           />
         </div>
       </div>
-      <NodeList params={params} setter={setParams} />
+      <NodeList query={query} params={params} setter={setParams} />
     </div>
   );
 }

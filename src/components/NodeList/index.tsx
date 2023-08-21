@@ -1,9 +1,9 @@
+import type { UseQueryResult } from "@tanstack/react-query";
 import type {
   DecodedValueMap,
   QueryParamConfigMap,
   SetQuery,
 } from "use-query-params";
-import { useDebounce } from "usehooks-ts";
 import type {
   GridFilterModel,
   GridRowClassNameParams,
@@ -13,7 +13,7 @@ import type {
 } from "@mui/x-data-grid";
 import Link from '@mui/material/Link';
 
-import { useNodes } from "../../lib/paddles";
+import type { Node } from "../../lib/paddles.d";
 import { formatDate } from "../../lib/utils";
 import DataGrid from "../DataGrid";
 
@@ -73,6 +73,7 @@ export const columns: GridColDef[] = [
 ];
 
 interface NodeListProps {
+  query: UseQueryResult<Node[]>;
   params: DecodedValueMap<QueryParamConfigMap>;
   setter: SetQuery<QueryParamConfigMap>;
 }
@@ -86,18 +87,21 @@ export function nodeRowClass(params: GridRowClassNameParams) {
   return isLocked ? 'node-locked' : 'node-available';
 }
 
-export default function NodeList({ params, setter }:NodeListProps) {
-  const debouncedParams = useDebounce(params, 500);
-  const query = useNodes(debouncedParams);
-  if (query.isError) return null;
-
+export default function NodeList({ query, params, setter }:NodeListProps) {
   let filterModel: GridFilterModel = { items: [] };
+  if (params.machine_type) {
+    filterModel = {
+      items: [
+        {
+          field: "machine_type",
+          value: params.machine_type,
+          operator: "contains",
+        },
+      ],
+    };
+  }
   const onFilterModelChange = (model: GridFilterModel) => {
-    const params: QueryParamConfigMap = {};
-    model.items.forEach((item) => {
-      params[item.field] = item.value || null;
-    });
-    setter(params);
+    setter({ machine_type: model.items[0].value || null });
   };
   return (
     <DataGrid

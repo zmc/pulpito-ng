@@ -116,19 +116,19 @@ function useNodeJobs(name: string, params: GetURLParams): UseQueryResult<NodeJob
   return query;
 }
 
-function useNode(name: string): UseQueryResult<Node> {
+function useNode(name: string): UseQueryResult<Node[]> {
   const url = getURL(`/nodes/${name}/`);
-  const query = useQuery<Node, Error>(["node", { url }]);
+  const query = useQuery(["node", { url }], {
+    select: (node: Node) => {
+        node["description"] = (node['description'] || "").split('/').slice(-2).join('/');
+        return [{ ...node, id: node.name }];
+      }
+    });
   return query;
 }
 
-function useNodes(params: GetURLParams): UseQueryResult<Node[]> {
-  const params_ = JSON.parse(JSON.stringify(params || {}));
-
-  const queryString = new URLSearchParams(params_).toString();
-  let uri = "nodes/" + (queryString? `?${queryString}` : '');
-
-  const url = new URL(uri, PADDLES_SERVER).href
+function useNodes(): UseQueryResult<Node[]> {
+  const url = new URL("nodes/", PADDLES_SERVER).href
   const query = useQuery(["nodes", { url }], {
     select: (data: Node[]) =>
       data.map((item) => {

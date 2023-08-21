@@ -3,9 +3,8 @@ import { useQueryParams, NumberParam } from "use-query-params";
 import Typography from "@mui/material/Typography";
 import { Helmet } from "react-helmet";
 
-import DataGrid from "../../components/DataGrid";
 import JobList from "../../components/JobList";
-import { nodeRowClass, columns as nodeColumns} from "../../components/NodeList";
+import NodeList from "../../components/NodeList";
 import type { NodeParams } from "../../lib/paddles.d";
 
 import { useNode, useNodeJobs } from "../../lib/paddles";
@@ -36,15 +35,9 @@ export default function Node() {
 
       <div style={{ height: "auto", display: "flex" }}>
         <div style={{ display: "flex", flexWrap: "wrap", marginLeft: "auto", gap: 30 }}>
-      <DataGrid
-        columns={nodeColumns}
-        rows={[{ id: name, ...detailsQuery.data}] || []}
-        loading={detailsQuery.isLoading || detailsQuery.isFetching}
-        hideFooter={true}
-        getRowClassName={nodeRowClass}
-      />
-      <JobList query={jobsQuery} params={params} setter={setParams} />
-      </div>
+          <NodeList query={detailsQuery} params={params} setter={setParams} />
+          <JobList query={jobsQuery} params={params} setter={setParams} />
+        </div>
       </div>
     </div>
   );
