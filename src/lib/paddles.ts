@@ -132,6 +132,7 @@ function useNodes(params: GetURLParams): UseQueryResult<Node[]> {
   const query = useQuery(["nodes", { url }], {
     select: (data: Node[]) =>
       data.map((item) => {
+        item["description"] = (item['description'] || "").split('/').slice(-2).join('/');
         return { ...item, id: item.name };
       }),
   });
@@ -153,7 +154,7 @@ function useStatsNodeLocks(params: GetURLParams): UseQueryResult<StatsLocksRespo
         let owner: string = node["locked"] ? (node["locked_by"] || "-") : "(free)";
         let mtype: string = node["machine_type"] || "None";
         let mtype_dict = users.get(owner) || new Map();
-        let mcount = mtype_dict.get(mtype) || 0 + 1;
+        let mcount = mtype_dict.get(mtype) + 1 || 0 + 1;
         mtype_dict.set(mtype, mcount);
         users.set(owner, mtype_dict);
       });

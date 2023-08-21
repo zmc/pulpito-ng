@@ -21,14 +21,14 @@ import DataGrid from "../DataGrid";
 export const columns: GridColDef[] = [
   {
     field: "name",
-    width: 125,
+    width: 100,
     renderCell: (params: GridRenderCellParams) => {
-      return <Link href={`/nodes/${params.value}`} color="inherit">{params.value?.split(".")[0]}</Link>;
+      return <Link href={`/nodes/${params.value}/`} color="inherit">{params.value?.split(".")[0]}</Link>;
     },
   },
   {
     field: "machine_type",
-    width: 125,
+    width: 90,
   },
   {
     field: "up",
@@ -45,12 +45,12 @@ export const columns: GridColDef[] = [
     field: "locked_since",
     type: "date",
     valueFormatter: (row: GridValueFormatterParams) => formatDate(row.value),
-    width: 200,
+    width: 150,
   },
   {
     headerName: "locked by",
     field: "locked_by",
-    width: 200,
+    width: 175,
   },
   {
     headerName: "OS type",
@@ -64,11 +64,11 @@ export const columns: GridColDef[] = [
   },
   {
     field: "arch",
-    width: 90,
+    width: 60,
   },
   {
     field: "description",
-    width: 170,
+    width: 500,
   },
 ];
 
@@ -108,7 +108,7 @@ export default function NodeList({ params, setter }:NodeListProps) {
         sorting: {
           sortModel: [
             {
-              field: "machine_type",
+              field: "name",
               sort: "asc",
             },
           ],

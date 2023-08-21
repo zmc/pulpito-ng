@@ -16,7 +16,7 @@ export const columns: GridColDef[] = [
         field: "name",
         width: 200,
         renderCell: (params: GridRenderCellParams) => {
-          return <Link href={`/nodes/${params.value}`} color="inherit">{params.value}</Link>;
+          return <Link href={`/nodes/${params.value}/`} color="inherit">{params.value?.split(".")[0]}</Link>;
         },
     },
     {
@@ -88,6 +88,16 @@ export default function StatsNodesJobs() {
                 rows={query.data || []}
                 loading={query.isLoading || query.isFetching}
                 hideFooter={true}
+                initialState={{
+                    sorting: {
+                      sortModel: [
+                        {
+                          field: "name",
+                          sort: "asc",
+                        },
+                      ],
+                    },
+                }}
             />
         </div>
     );

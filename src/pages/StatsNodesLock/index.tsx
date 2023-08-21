@@ -67,6 +67,16 @@ export default function StatsNodesLock() {
                 rows={query.data || []}
                 loading={query.isLoading || query.isFetching}
                 hideFooter={true}
+                initialState={{
+                    sorting: {
+                      sortModel: [
+                        {
+                          field: "owner",
+                          sort: "asc",
+                        },
+                      ],
+                    },
+                }}
             />
         </div>
     );

@@ -134,6 +134,12 @@ const Root = styled("div")(({ theme }) => {
             backgroundColor: getHoverColor(nodeStatusColors.available),
           },
         },
+        '.MuiDataGrid-booleanCell[data-value="true"]': {
+          color: "black"
+        },
+        '.MuiDataGrid-booleanCell[data-value="false"]': {
+          color: "black"
+        },
       },
     },
   };
