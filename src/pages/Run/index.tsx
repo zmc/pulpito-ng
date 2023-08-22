@@ -96,7 +96,7 @@ export default function Run() {
           </Button>
         ))}
       </ButtonGroup>
-      <JobList query={query} params={params} setter={setParams} />
+      <JobList query={query} params={params} setter={setParams} pagingMode={"client"} />
     </Root>
   );
 }

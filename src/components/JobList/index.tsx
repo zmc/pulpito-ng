@@ -141,10 +141,15 @@ interface JobListProps {
   query: UseQueryResult<Run> | UseQueryResult<NodeJobs>;
   params: DecodedValueMap<QueryParamConfigMap>;
   setter: SetQuery<QueryParamConfigMap>;
+  pagingMode: "client" | "server";
 }
 
-export default function JobList({ query, params, setter }: JobListProps) {
+export default function JobList({ query, params, setter, pagingMode }: JobListProps) {
   if (query.isError) return null;
+  let extraProps: Record<string, any> = {"paginationMode": pagingMode}
+  if (pagingMode === "client") {
+    extraProps["rowCount"] = query.data?.jobs?.length || 999;
+  } 
   let filterModel: GridFilterModel = { items: [] };
   if (params.status) {
     filterModel = {
@@ -164,7 +169,6 @@ export default function JobList({ query, params, setter }: JobListProps) {
     <DataGrid
       columns={columns}
       rows={query.data?.jobs || []}
-      rowCount={query.data?.jobs?.length || 999}
       loading={query.isLoading || query.isFetching}
       initialState={{
         sorting: {
@@ -179,7 +183,6 @@ export default function JobList({ query, params, setter }: JobListProps) {
       filterMode="client"
       filterModel={filterModel}
       onFilterModelChange={onFilterModelChange}
-      paginationMode="client"
       onPaginationModelChange={setter}
       pageSize={params.pageSize}
       page={params.page}
@@ -187,6 +190,7 @@ export default function JobList({ query, params, setter }: JobListProps) {
       getRowClassName={(params: GridRowClassNameParams) => {
         return `status-${params.row.status}`;
       }}
+      {...extraProps}
     />
   );
 }

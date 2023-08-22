@@ -36,7 +36,7 @@ export default function Node() {
       <div style={{ height: "auto", display: "flex" }}>
         <div style={{ display: "flex", flexWrap: "wrap", marginLeft: "auto", gap: 30 }}>
           <NodeList query={detailsQuery} params={params} setter={setParams} />
-          <JobList query={jobsQuery} params={params} setter={setParams} />
+          <JobList query={jobsQuery} params={params} setter={setParams} pagingMode={"server"}  />
         </div>
       </div>
     </div>
