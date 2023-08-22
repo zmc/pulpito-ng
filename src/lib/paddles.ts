@@ -102,7 +102,7 @@ function useMachineTypes() {
 
 function useNodeJobs(name: string, params: GetURLParams): UseQueryResult<NodeJobs> {
   // 'page' and 'count' are mandatory query params for this paddles endpoint
-  params = { "page": params?.page || 0, "pageSize": params?.pageSize || 25 } 
+  params = { "page": params?.page || 0, "pageSize": params?.pageSize || 25 }  
   const url = getURL(`/nodes/${name}/jobs/`, params);
   const query = useQuery(["nodeJobs", { url }], {
     select: (data: Job[]) => {
@@ -189,7 +189,7 @@ function useStatsNodeJobs(params: GetURLParams): UseQueryResult<StatsJobsRespons
           'pass': status_dict['pass'] || 0, 
           'fail': status_dict['fail'] || 0, 
           'dead': status_dict['dead'] || 0, 
-          'unkown': status_dict['unkown'] || 0, 
+          'unknown': status_dict['unknown'] || 0, 
           'running': status_dict['running'] || 0,  
         };
         for (let status in status_dict) {

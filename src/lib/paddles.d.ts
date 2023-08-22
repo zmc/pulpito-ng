@@ -64,7 +64,7 @@ export interface StatsJobsResponse {
   pass?: number;
   fail?: number;
   dead?: number;
-  unkown?: number;
+  unknown?: number;
   running?: number;
   total: number;
 }
