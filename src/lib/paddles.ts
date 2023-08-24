@@ -1,7 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import type { UseQueryResult } from "@tanstack/react-query";
 
-import type { GetURLParams, Run, Job } from "./paddles.d";
+import type { 
+  GetURLParams, 
+  Run, Job, 
+  Node, NodeJobs,
+  StatsLocksResponse,
+  StatsJobsResponse,
+} from "./paddles.d";
 
 const PADDLES_SERVER =
   import.meta.env.VITE_PADDLES_SERVER || "https://paddles.front.sepia.ceph.com";
@@ -94,6 +100,109 @@ function useMachineTypes() {
   return useQuery(["machine_types", { url }]);
 }
 
+function useNodeJobs(name: string, params: GetURLParams): UseQueryResult<NodeJobs> {
+  // 'page' and 'count' are mandatory query params for this paddles endpoint
+  params = { "page": params?.page || 0, "pageSize": params?.pageSize || 25 }  
+  const url = getURL(`/nodes/${name}/jobs/`, params);
+  const query = useQuery(["nodeJobs", { url }], {
+    select: (data: Job[]) => {
+      data.forEach((item) => {
+        item.id = item.job_id;
+      });
+      const resp: NodeJobs = { 'jobs': data }
+      return resp;
+    },
+  });
+  return query;
+}
+
+function useNode(name: string): UseQueryResult<Node[]> {
+  const url = getURL(`/nodes/${name}/`);
+  const query = useQuery(["node", { url }], {
+    select: (node: Node) => {
+        node["description"] = (node['description'] || "").split('/').slice(-2).join('/');
+        return [{ ...node, id: node.name }];
+      }
+    });
+  return query;
+}
+
+function useNodes(): UseQueryResult<Node[]> {
+  const url = new URL("nodes/", PADDLES_SERVER).href
+  const query = useQuery(["nodes", { url }], {
+    select: (data: Node[]) =>
+      data.map((item) => {
+        item["description"] = (item['description'] || "").split('/').slice(-2).join('/');
+        return { ...item, id: item.name };
+      }),
+  });
+  return query;
+}
+
+function useStatsNodeLocks(params: GetURLParams): UseQueryResult<StatsLocksResponse[]> {
+  const params_ = JSON.parse(JSON.stringify(params || {}));
+  params_["up"] = "True"
+
+  const queryString = new URLSearchParams(params_).toString();
+  let uri = `nodes/?${queryString}`;
+  const url = new URL(uri, PADDLES_SERVER).href
+
+  const query = useQuery(["statsLocks", { url }], {
+    select: (data: Node[]) => {
+      let users = new Map();
+      data.map((node) => {
+        let owner: string = node["locked"] ? (node["locked_by"] || "-") : "(free)";
+        let mtype: string = node["machine_type"] || "None";
+        let mtype_dict = users.get(owner) || new Map();
+        let mcount = mtype_dict.get(mtype) + 1 || 0 + 1;
+        mtype_dict.set(mtype, mcount);
+        users.set(owner, mtype_dict);
+      });
+      let resp: StatsLocksResponse[] = [];
+      users.forEach(((mtype_dict: Map<string, number>, owner: string) => {
+        mtype_dict.forEach((mcount: number, mtype: string) => {
+          resp.push({ id: owner + mtype, owner, machine_type: mtype, count: mcount })
+        })
+      }));
+      return resp;
+    },
+  });
+  return query;
+}
+
+function useStatsNodeJobs(params: GetURLParams): UseQueryResult<StatsJobsResponse[]> {
+  const params_ = JSON.parse(JSON.stringify(params || {}));
+  params_["since_days"] = params_["since_days"] || 14;
+
+  const queryString = new URLSearchParams(params_).toString();
+  let uri = `nodes/job_stats/?${queryString}`;
+  const url = new URL(uri, PADDLES_SERVER).href;
+
+  const query = useQuery(["statsJobs", { url }], {
+    select: (data: {[name: string]: { [status: string]: number }}) => {
+      let resp: StatsJobsResponse[] = [];
+      for (let node in data) {
+        let name = node;
+        let status_dict = data[node];
+        let respObj: StatsJobsResponse = { 
+          id: name, name, 'total': 0,
+          'pass': status_dict['pass'] || 0, 
+          'fail': status_dict['fail'] || 0, 
+          'dead': status_dict['dead'] || 0, 
+          'unknown': status_dict['unknown'] || 0, 
+          'running': status_dict['running'] || 0,  
+        };
+        for (let status in status_dict) {
+          respObj["total"] += status_dict[status] || 0;
+        }
+        resp.push(respObj)
+      }
+      return resp;
+    },
+  });
+  return query;
+}
+
 function useStatuses() {
   return {
     data: [
@@ -115,4 +224,9 @@ export {
   useJob,
   useSuites,
   useStatuses,
+  useNode,
+  useNodeJobs,
+  useNodes,
+  useStatsNodeLocks,
+  useStatsNodeJobs,
 };
