@@ -1,4 +1,5 @@
 import DescriptionIcon from "@mui/icons-material/Description";
+import Tooltip from '@mui/material/Tooltip';
 import type {
   GridCellParams,
   GridFilterModel,
@@ -28,6 +29,21 @@ const columns: GridColDef[] = [
     field: "status",
     width: 85,
     cellClassName: (params: GridCellParams) => `status-${params.value}`,
+    renderCell: (params: GridRenderCellParams) => {
+      let failure_reason = params.row.failure_reason || "";
+      const max_length = 800;
+      const ellipsis = "...";
+      if ( failure_reason.length > max_length ) {
+        failure_reason = failure_reason.substring(0, max_length - ellipsis.length) + ellipsis;
+      }
+      return (
+        <div>
+        <Tooltip title={failure_reason}>
+          <p>{params.value}</p>
+        </Tooltip>
+        </div>
+      );
+    }
   },
   {
     field: "links",
