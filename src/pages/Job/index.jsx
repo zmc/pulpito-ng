@@ -10,6 +10,7 @@ import ScheduleIcon from "@mui/icons-material/Schedule";
 import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import FolderIcon from '@mui/icons-material/Folder';
 import formatDuration from "date-fns/formatDuration";
 import { isValid, parse } from "date-fns";
 import Editor from "react-simple-code-editor";
@@ -21,7 +22,7 @@ import YAML from "json-to-pretty-yaml";
 
 import Link from "../../components/Link";
 import { useJob } from "../../lib/paddles";
-import { getDuration } from "../../lib/utils";
+import { getDuration, dirName } from "../../lib/utils";
 
 function StatusIcon({ status }) {
   const theme = useTheme();
@@ -76,6 +77,18 @@ function JobHeader({ query }) {
   if (!query.isSuccess) return null;
   return (
     <>
+      <Grid item xs={12} style={{ display: "flex" }}>
+        <StatusIcon status={query.data?.status} />
+        <Typography variant="h5">
+          <Link to={`/runs/${query.data.name}`}>{query.data.name}</Link>/{query.data.job_id}
+        </Typography>
+      </Grid>
+      <Grid item xs={12} style={{ display: "flex" }}>
+        <FolderIcon sx={{ alignSelf: "center", margin: "5px" }} />
+        <Typography variant="h5">
+          <Link to={dirName(query.data.log_href)}>Log Archive</Link>
+        </Typography>
+      </Grid>
       <Grid item xs={4}>
         <Typography>Status: {query.data.status}</Typography>
         <Typography>
@@ -167,12 +180,6 @@ export default function Job() {
       <Helmet>
         <title>{`Job ${job_id} - Pulpito`}</title>
       </Helmet>
-      <Grid item xs={12} style={{ display: "flex" }}>
-        <StatusIcon status={query.data?.status} />
-        <Typography variant="h5">
-          <Link to={`/runs/${name}`}>{name}</Link>/{job_id}
-        </Typography>
-      </Grid>
       <JobHeader query={query} />
       <Grid item xs={12}>
         <Accordion

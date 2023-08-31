@@ -38,4 +38,10 @@ function colorTint(hex, delta) {
   return "#" + convert.hsl.hex(hsl);
 }
 
-export { formatDate, getDuration, formatDuration, colorTint };
+function dirName(path) {
+  const array = path.split("/");
+  array.splice(-1, 1, "");
+  return array.join("/");
+}
+
+export { formatDate, getDuration, formatDuration, colorTint, dirName };
