@@ -9,6 +9,9 @@ import MuiAppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 
+import Login from "../Login";
+
+
 const PREFIX = 'index';
 
 const classes = {
@@ -78,6 +81,9 @@ export default function AppBar(props) {
             Pulpito
           </RouterLink>
         </Typography>
+        <div>
+          <Login />
+        </div>
         <IconButton onClick={props.toggleDarkMode} size="large">
           {props.darkMode ? <Brightness7Icon /> : <Brightness4Icon />}
         </IconButton>

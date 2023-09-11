@@ -4,6 +4,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { QueryParamProvider } from "use-query-params";
 import { ReactRouter6Adapter } from "use-query-params/adapters/react-router-6";
+import { CookiesProvider } from "react-cookie";
 import axios from "axios";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
@@ -78,15 +79,17 @@ export default function Root() {
     <React.StrictMode>
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
-          <Router>
-            <QueryParamProvider adapter={ReactRouter6Adapter}>
-              <CssBaseline />
-              <QueryClientProvider client={queryClient}>
-                <ReactQueryDevtools initialIsOpen={false} />
-                <App darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
-              </QueryClientProvider>
-            </QueryParamProvider>
-          </Router>
+          <CookiesProvider>
+            <Router>
+              <QueryParamProvider adapter={ReactRouter6Adapter}>
+                <CssBaseline />
+                <QueryClientProvider client={queryClient}>
+                  <ReactQueryDevtools initialIsOpen={false} />
+                  <App darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
+                </QueryClientProvider>
+              </QueryParamProvider>
+            </Router>
+          </CookiesProvider>
         </ThemeProvider>
       </StyledEngineProvider>
     </React.StrictMode>
