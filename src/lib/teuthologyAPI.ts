@@ -4,7 +4,7 @@ import { Cookies } from "react-cookie";
 import type { UseQueryResult } from "@tanstack/react-query";
 
 const TEUTHOLOGY_API_SERVER = 
-    import.meta.env.VITE_TEUTHOLOGY_API || "";
+    import.meta.env.VITE_TEUTHOLOGY_API || "https://teuthology-api.com";
 const GH_USER_COOKIE = "GH_USER";
 
 function useLogin() {
@@ -29,6 +29,7 @@ function useSession(): UseQueryResult {
                 withCredentials: true
             }).then((resp) => resp.data)
         ),
+        retry: 1,
     });
     return query;
 }

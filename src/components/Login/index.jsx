@@ -20,8 +20,6 @@ export default function Login() {
     setAnchorEl(null);
   };
 
-  if (sessionQuery.isError) return null;
-
   return (
     <div>
       {sessionQuery.data?.session
@@ -49,6 +47,7 @@ export default function Login() {
             variant="contained" 
             onClick={useLogin} 
             startIcon={<GitHubIcon fontSize="small" /> }
+            disabled={sessionQuery.isError}
           >
             Login 
           </Button>
