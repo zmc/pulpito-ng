@@ -20,6 +20,8 @@ export default function Login() {
     setAnchorEl(null);
   };
 
+  if ( ! sessionQuery.isSuccess ) return null;
+
   return (
     <div>
       {sessionQuery.data?.session
