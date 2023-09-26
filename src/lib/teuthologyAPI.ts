@@ -12,12 +12,12 @@ function getURL(relativeURL: URL|string): string {
     return new URL(relativeURL, TEUTHOLOGY_API_SERVER).toString();
 }
 
-function useLogin() {
+function doLogin() {
     const url = getURL("/login/");
     if ( url ) window.location.href = url;
 }
 
-function useLogout() {
+function doLogout() {
     const cookies = new Cookies();
     cookies.remove(GH_USER_COOKIE);
     
@@ -57,8 +57,8 @@ function useUserData(): Map<string, string> {
 }
 
 export {
-    useLogin,
-    useLogout,
+    doLogin,
+    doLogout,
     useSession,
     useUserData
 }

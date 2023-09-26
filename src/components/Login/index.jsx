@@ -5,7 +5,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import GitHubIcon from '@mui/icons-material/GitHub';
 
-import { useLogin, useLogout, useSession, useUserData } from "../../lib/teuthologyAPI";
+import { doLogin, doLogout, useSession, useUserData } from "../../lib/teuthologyAPI";
 
 
 export default function Login() {
@@ -42,12 +42,12 @@ export default function Login() {
                 'aria-labelledby': 'basic-button',
               }}
             >
-              <MenuItem onClick={useLogout}>Logout</MenuItem>
+              <MenuItem onClick={doLogout}>Logout</MenuItem>
             </Menu>
         </div>
         : <Button 
             variant="contained" 
-            onClick={useLogin} 
+            onClick={doLogin}
             startIcon={<GitHubIcon fontSize="small" /> }
             disabled={sessionQuery.isError}
           >
