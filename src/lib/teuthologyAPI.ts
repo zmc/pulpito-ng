@@ -4,24 +4,29 @@ import { Cookies } from "react-cookie";
 import type { UseQueryResult } from "@tanstack/react-query";
 
 const TEUTHOLOGY_API_SERVER = 
-    import.meta.env.VITE_TEUTHOLOGY_API || "https://teuthology-api.com";
+    import.meta.env.VITE_TEUTHOLOGY_API || "";
 const GH_USER_COOKIE = "GH_USER";
 
-function useLogin() {
-    const url =  new URL("/login/", TEUTHOLOGY_API_SERVER).href;
-    window.location.href = url;
+function getURL(relativeURL: URL|string): string {
+    if ( ! TEUTHOLOGY_API_SERVER ) return "";
+    return new URL(relativeURL, TEUTHOLOGY_API_SERVER).toString();
 }
 
-function useLogout() {
+function doLogin() {
+    const url = getURL("/login/");
+    if ( url ) window.location.href = url;
+}
+
+function doLogout() {
     const cookies = new Cookies();
     cookies.remove(GH_USER_COOKIE);
     
-    const url =  new URL("/logout/", TEUTHOLOGY_API_SERVER).href;
+    const url = getURL("/logout/");
     window.location.href = url;
 }
 
 function useSession(): UseQueryResult {
-    const url =  new URL("/", TEUTHOLOGY_API_SERVER).href;
+    const url = getURL("/");
     const query = useQuery({
         queryKey: ['ping-api', { url }],
         queryFn: () => (
@@ -30,6 +35,7 @@ function useSession(): UseQueryResult {
             }).then((resp) => resp.data)
         ),
         retry: 1,
+        enabled: url !== "",
     });
     return query;
 }
@@ -51,8 +57,8 @@ function useUserData(): Map<string, string> {
 }
 
 export {
-    useLogin,
-    useLogout,
+    doLogin,
+    doLogout,
     useSession,
     useUserData
 }
