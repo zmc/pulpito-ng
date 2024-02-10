@@ -3,7 +3,9 @@ export type Session = {
     session: {
         id: int,
         username: string,
-        isUserAdmin: boolean,
+        isUserAdmin?: boolean,
+        role: string,
+        state: string,
     }
 }
 
@@ -12,4 +14,9 @@ export type KillRunPayload = {
     "--owner": string,
     "--machine-type": string, 
     "--preserve-queue": boolean,
+}
+
+export type KillRunResult = {
+    kill: string;
+    logs?: string;
 }

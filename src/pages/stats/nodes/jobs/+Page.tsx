@@ -1,19 +1,23 @@
-import { useQueryParams, StringParam, NumberParam } from "use-query-params";
+import { Config } from 'vike-react/Config'
+import { useData } from 'vike-react/useData'
+import { usePageContext } from 'vike-react/usePageContext'
+import { useDebounceValue } from "usehooks-ts";
 import Typography from "@mui/material/Typography";
-import { Helmet } from "react-helmet";
-import Link from '@mui/material/Link';
 import {
   useMaterialReactTable,
   MaterialReactTable,
   type MRT_ColumnDef,
 } from 'material-react-table';
 
-import FilterMenu from "../../components/FilterMenu";
-import useDefaultTableOptions from "../../lib/table";
-
-import { useMachineTypes, useStatsNodeJobs } from "../../lib/paddles";
-import { type StatsJobsResponse } from "../../lib/paddles.d";
-
+import FilterMenu from "#src/components/FilterMenu";
+import { MACHINE_TYPES } from '#src/lib/paddles';
+import { type StatsJobsResponse } from "#src/lib/paddles.d";
+import {
+  getColumnFiltersCallback,
+  getPaginationCallback,
+  parseParams,
+  useDefaultTableOptions,
+} from "#src/lib/table";
 
 export const columns: MRT_ColumnDef<StatsJobsResponse>[] = [
   {
@@ -22,7 +26,7 @@ export const columns: MRT_ColumnDef<StatsJobsResponse>[] = [
     size: 200,
     Cell: ({ row }) => {
       const name = row.original.name;
-      return <Link href={`/nodes/${name}/`} color="inherit">{name.split(".")[0]}</Link>;
+      return <a href={`/nodes/${name}/`} color="inherit">{name.split(".")[0]}</a>;
     },
   },
   {
@@ -58,17 +62,21 @@ export const columns: MRT_ColumnDef<StatsJobsResponse>[] = [
 
 ]
 
-export default function StatsNodesJobs() {
-  const [params, setParams] = useQueryParams({
-    machine_type: StringParam,
-    since_days: NumberParam,
+export default function Page() {
+  const context = usePageContext();
+  const params = context?.urlParsed.search || {};
+  const [debouncedParams, _] = useDebounceValue(params, 500);
+  const { columnFilters, pagination } = parseParams(debouncedParams);
+  const onColumnFiltersChange = getColumnFiltersCallback({
+    path: context.urlPathname, columnFiltersState: columnFilters, paginationState: pagination
   });
-  const machine_type = params["machine_type"];
-  const since_days = params["since_days"];
-  const query = useStatsNodeJobs(params);
+  const onPaginationChange = getPaginationCallback({
+    path: context.urlPathname, columnFiltersState: columnFilters, paginationState: pagination
+  });
+  const machine_type = params.machine_type || "";
+  const since_days = params.since_days || "";
   const options = useDefaultTableOptions<StatsJobsResponse>();
-
-  const data = query.data || [];
+  const data: StatsJobsResponse[] = useData();
   const table = useMaterialReactTable({
     ...options,
     columns,
@@ -91,17 +99,12 @@ export default function StatsNodesJobs() {
         },
       ],
     },
-    state: {
-      isLoading: query.isLoading || query.isFetching,
-    },
+    // onColumnFiltersChange,
+    // onPaginationChange,
   });
-  if (query === null) return <Typography>404</Typography>;
-  if (query.isError) return null;
   return (
     <div>
-      <Helmet>
-        <title>Stats Nodes Jobs - Pulpito</title>
-      </Helmet>
+      <Config title="Stats Nodes Jobs - Pulpito" />
       <Typography variant="h6" style={{ marginBottom: "20px" }}>
         {since_days || 14}-day stats for {machine_type || "all"} nodes
       </Typography>
@@ -116,13 +119,13 @@ export default function StatsNodesJobs() {
           <FilterMenu
             type="machine_type"
             value={machine_type}
-            setter={setParams}
-            optionsHook={useMachineTypes}
-            width={150}
+            baseUrl="/stats/nodes/jobs/"
+            options={MACHINE_TYPES}
           />
         </div>
       </div>
       <MaterialReactTable table={table} />
     </div>
   );
+
 }

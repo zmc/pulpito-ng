@@ -1,4 +1,5 @@
 import { ReactNode, useMemo } from "react";
+import { useData } from 'vike-react/useData'
 import DescriptionIcon from "@mui/icons-material/Description";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
@@ -224,11 +225,15 @@ type JobListProps = {
   sortMode?: "time" | "id";
 }
 
-export default function JobList({ query, sortMode }: JobListProps) {
+export default function JobList({ sortMode }: JobListProps) {
+  const data_: Run = useData();
   const options = useDefaultTableOptions<Job>();
   const data = useMemo(() => {
-    return (query.data?.jobs || []).filter(item => !! item.id);
-  }, [query, sortMode]);
+    return (data_?.jobs || []).filter(item => {
+      item.id = String(item.job_id);
+      return !! item.id;
+    });
+  }, [data_, sortMode]);
   const table = useMaterialReactTable({
     ...options,
     columns,
@@ -264,9 +269,6 @@ export default function JobList({ query, sortMode }: JobListProps) {
       ],
       showGlobalFilter: true,
     },
-    state: {
-      isLoading: query.isLoading || query.isFetching,
-    },
     renderDetailPanel: JobDetailPanel,
     muiTableBodyRowProps: ({row, isDetailPanel}) => {
       if ( isDetailPanel ) {
@@ -277,6 +279,5 @@ export default function JobList({ query, sortMode }: JobListProps) {
       return {};
     },
   });
-  if (query.isError) return null;
   return <MaterialReactTable table={table} />
 }
