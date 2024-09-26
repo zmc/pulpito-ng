@@ -3,13 +3,6 @@ import { useData } from 'vike-react/useData'
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid2';
 import Typography from "@mui/material/Typography";
-import Accordion from "@mui/material/Accordion";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import AccordionDetails from "@mui/material/AccordionDetails";
-import Button from "@mui/material/Button";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import ScheduleIcon from "@mui/icons-material/Schedule";
-import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import FolderIcon from '@mui/icons-material/Folder';
@@ -171,17 +164,14 @@ export default function Job() {
       <Config title={`Job ${data.job_id} - Pulpito`} />
       <JobHeader data={data} />
       <Grid size={12}>
-        <Accordion
-          TransitionProps={{ unmountOnExit: true }}
+        <details
           style={{ marginTop: "20px" }}
         >
-          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          <summary>
             <Typography>Full job details</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
+          </summary>
             <JobDetails data={data} />
-          </AccordionDetails>
-        </Accordion>
+        </details>
         <Button variant={"text"} sx={{"marginTop": "10px"}}
                 onClick={() => toggleShowJobHistory(!showJobHistory)}>
           {showJobHistory ? "Hide": "Show"} history
@@ -190,7 +180,6 @@ export default function Job() {
             (data?.description ? <JobHistory description={data.description} /> : null)
             :null
         }
-        
       </Grid>
     </Grid>
   );
